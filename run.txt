@@ -1,0 +1,5 @@
+mv Wkdy\ Adj\ OD-Table\ 1.csv weekday.csv
+mv Sat\ Adj\ OD-Table\ 1.csv saturday.csv
+mv Sun\ Adj\ OD-Table\ 1.csv sunday.csv
+mv Fast\ Pass\ Adj\ OD-Table\ 1.csv fastpass.csv
+

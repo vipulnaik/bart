@@ -1,3 +1,13 @@
+create table ridership(
+  ridership_id int(11) not null auto_increment primary key, 
+  monthfull varchar(7) not null,
+  day_type enum('weekday','saturday','sunday'),
+  entry_station_code varchar(2) not null,
+  exit_station_code varchar(2) not null,
+  count int(11) not null,
+  unique mtee(monthfull, day_type, entry_station_code, exit_station_code)
+) ENGINE=InnoDB AUTO_INCREMENT=15239276 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 create table stations(
   code_2l varchar(2) not null,
   code_long varchar(5) not null,

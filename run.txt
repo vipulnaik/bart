@@ -17,3 +17,8 @@ mv Weekday\ OD-Table\ 1.csv weekday.csv
 mv Saturday\ OD-Table\ 1.csv saturday.csv
 mv Sunday\ OD-Table\ 1.csv sunday.csv
 mv FP\ Adult_Clipper\ OD-Table\ 1.csv fastpass.csv
+
+mv Weekday\ OD-Table\ 1.csv weekday.csv
+mv Saturday\ OD-Table\ 1.csv saturday.csv
+mv Sunday\ OD-Table\ 1.csv sunday.csv
+

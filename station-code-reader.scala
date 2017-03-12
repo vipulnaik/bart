@@ -21,7 +21,7 @@ for (year <- 2000 to 2017) {
         }
       }).flatten.mkString(",\n")
 
-      val preamble = """insert ignore into ridership(monthfull,day_type,entry_station_code,exit_station_code,day_type,count) values \n"""
+      val preamble = """insert ignore into ridership(monthfull,day_type,entry_station_code,exit_station_code,count) values """ + "\n"
 
       val queryString = preamble + stationOutputString + ";"
 

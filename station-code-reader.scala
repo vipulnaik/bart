@@ -11,7 +11,7 @@ for (year <- 2000 to 2017) {
 
       val stationCodes = data(1).tail.split(",").filter(_.size == 2)
 
-      val stationMap = data.dropRight(2).map(x => x.split(",").head -> (stationCodes zip x.split(",").tail)).toMap
+      val stationMap = data.dropRight(2).map(x => x.split(",").head -> (stationCodes zip x.split(", ").map(_.split(""","""")).flatten.map(_.split("""",""")).flatten.tail)).toMap
 
       val stationMapFixed = stationMap.mapValues(_.map{case (a,b) => (a,Try(b.filter(t => Character.isDigit(t)).toInt).getOrElse(0))})
 

@@ -10,11 +10,8 @@ print '</head>';
 print '<body>';
 print '<script>$(document).ready(function()
     {
-        $("#myTableDonationAmountsByCauseAreaAndYear").tablesorter();
-        $("#myTableDonationAmountsByDonorAndYear").tablesorter();	
-        $("#myTableDonationAmountsByDoneeAndYear").tablesorter();	
     }
 ); </script>'."\n";
-
+include_once('preamble.inc');
 print '</body>';
 ?>

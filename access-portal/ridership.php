@@ -10,6 +10,7 @@ if (!empty($_REQUEST['exitStation'])) {
 }
 
 print "<title>BART Ridership: $entryStation to $exitStation</title>";
+include_ince("analytics.inc");
 include_once("backend/globalVariables/passwordFile.inc");
 include_once("backend/globalVariables/globalVariables.inc");
 print '<link href="style.css" rel="stylesheet" type="text/css" />'."\n";

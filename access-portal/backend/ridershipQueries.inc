@@ -4,11 +4,11 @@ function getRidership($entryStation, $exitStation) {
   global $mysqli;
   $ridershipQuery = "";
   if ($entryStation == "total" and $exitStation == "total") {
-    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership group by monthfull, day_type;";
+    $ridershipQuery = "select monthfull, day_type, ridercount from ridership_total;";
   } else if ($exitStation == "total") {
-    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership where entry_station_code='$entryStation' group by monthfull, day_type;";
+    $ridershipQuery = "select monthfull, day_type, ridercount from ridership_entry_total where entry_station_code='$entryStation';";
   } else if ($entryStation == "total") {
-    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership where exit_station_code='$exitStation' group by monthfull, day_type;";
+    $ridershipQuery = "select monthfull, day_type, ridercount from ridership_exit_total where exit_station_code='$exitStation';";
   } else {
     $ridershipQuery = "select * from ridership where entry_station_code='$entryStation' and exit_station_code='$exitStation';";
   }

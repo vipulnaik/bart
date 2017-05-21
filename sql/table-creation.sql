@@ -2,9 +2,9 @@ create table ridership(
   ridership_id int(11) not null auto_increment primary key, 
   monthfull varchar(7) not null,
   day_type enum('weekday','saturday','sunday'),
-  entry_station_code varchar(2) not null,
-  exit_station_code varchar(2) not null,
-  count int(11) not null,
+  entry_station_code  enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
+  exit_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
+  ridercount int(11) not null,
   unique mtee(monthfull, day_type, entry_station_code, exit_station_code)
 ) ENGINE=InnoDB AUTO_INCREMENT=15239276 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -48,7 +48,7 @@ insert into stations(code_2l, code_4l, code_long, ordinary_name, wikipedia_page,
   ('SB','SBRN','SBRN','San Bruno','https://en.wikipedia.org/wiki/San_Bruno_station_(BART)','https://www.bart.gov/stations/sbrn', false, false, false, false, false, true),
   ('SO','SFIA','SFO','San Francisco International Airport','https://en.wikipedia.org/wiki/San_Francisco_International_Airport_station','https://www.bart.gov/stations/sfia', true, false, false, false, true, true),
   ('MB','MLBR','MILL','Millbrae','https://en.wikipedia.org/wiki/Millbrae_station','https://www.bart.gov/stations/mlbr', false, false, true, false, true, true),
-  ('BP','PITT','BAY PT','Pittsburg/Bay Point','https://en.wikipedia.org/wiki/Pittsburg/Bay_Point_station','https://www.bart.gov/stations/pitt', false, false, false, false, true, true),
+  ('WP','PITT','BAY PT','Pittsburg/Bay Point','https://en.wikipedia.org/wiki/Pittsburg/Bay_Point_station','https://www.bart.gov/stations/pitt', false, false, false, false, true, true),
   ('NC','NCON','N CNC','North Concord/Martinez','https://en.wikipedia.org/wiki/North_Concord/Martinez_station','https://www.bart.gov/stations/ncon', false, false, false, false, false, true),
   ('CN','CONC','CONCD','Concord','https://en.wikipedia.org/wiki/Concord_station','https://www.bart.gov/stations/conc', false, false, false, false, false, true),
   ('PH','PHIL','PHILL','Pleasant Hill/Contra Costa Centre','https://en.wikipedia.org/wiki/Pleasant_Hill/Contra_Costa_Centre_station','https://www.bart.gov/stations/phil', false, false, false, false, false, true),

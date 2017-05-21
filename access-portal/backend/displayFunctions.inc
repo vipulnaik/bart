@@ -44,6 +44,7 @@ function printRidership($entryStation, $exitStation) {
   $displayEndTime = microtime(true);
   $totalTimeTaken = $displayEndTime - $queryStartTime;
   $displayTimeTaken = $displayEndTime - $queryEndTime;
+  print "<p>Printed data for ".count($monthList)." months (rows) and 6 columns, for a total of ".(count($monthList) * 6)." entries</p>";
   print "<p>Total time taken: ".sprintf('%.3f',$totalTimeTaken)." seconds, ".sprintf('%.3f',$queryTimeTaken)." for query and ".sprintf('%.3f',$displayTimeTaken)." for display</p>\n";
 }
 ?>

@@ -59,6 +59,14 @@ create table stations(
   opening_date date
 ) ENGINE=InnoDB AUTO_INCREMENT=14342245 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+create table routes(
+  start_station_code varchar(2) not null,
+  end_station_code varchar(2) not null,
+  station_code varchar(2) not null,
+  time_from_start int(11) not null
+) ENGINE=InnoDB AUTO_INCREMENT=14342355 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 insert into stations(code_2l, code_4l, code_long, ordinary_name, wikipedia_page, bart_page, airport, muni_connection, caltrain_connection, amtrak_connection, end_of_line, trains_can_turn, opening_date) values
   ('RM','RICH','RICH','Richmond','https://en.wikipedia.org/wiki/Richmond_station_(California)','https://www.bart.gov/stations/rich',false,false,false,true,true,true,'1973-01-29'),
   ('EN','DELN','DEL N','El Cerrito del Norte','https://en.wikipedia.org/wiki/El_Cerrito_del_Norte_(BART_station)','https://www.bart.gov/stations/deln',false,false,false,false,false,NULL,'1973-01-29'),

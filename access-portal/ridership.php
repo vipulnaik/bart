@@ -41,7 +41,12 @@ print '</table>';
 print '</form>';
 include_once("backend/backendQueries.inc");
 include_once("backend/displayFunctions.inc");
-printStationData(array($entryStation, $exitStation));
+$permalinkUrl = "https://bart.vipulnaik.com/ridership.php?entryStation=$entryStation&exitStation=$exitStation";
+print "<p>Permalink URL: <a href=\"$permalinkUrl\">$permalinkUrl</a></p>";
+function notTotal($stationName) {
+  return ($stationName != "total");
+}
+printStationData(array_filter(array($entryStation, $exitStation),"notTotal"));
 printRoutesAndFares($entryStation, $exitStation);
 printRidership($entryStation, $exitStation);
 print '</body>';

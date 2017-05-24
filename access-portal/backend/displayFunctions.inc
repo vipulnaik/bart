@@ -2,6 +2,9 @@
 
 function printStationData($stationList) {
   global $mysqli;
+  if (count($stationList) == 0) {
+    return;
+  }
   $stationListString = "('".join("','",$stationList)."')";
   $stationDataQuery = "select * from stations where code_2l in $stationListString";
   $stationDataResult = $mysqli -> query($stationDataQuery);
@@ -90,7 +93,6 @@ function printRidership($entryStation, $exitStation) {
   $queryEndTime = microtime(true);
   $queryTimeTaken = $queryEndTime - $queryStartTime;
   print "<p>The graph and table below shows average weekday, Saturday, and Sunday ridership between the stations $entryStation and $exitStation</p>";
-  print "<p>Permalink URL: <a href=\"$permalinkUrl\">$permalinkUrl</a></p>";
   $fullOutput = "Month|WeekdayF|WeekdayB|SaturdayF|SaturdayB|SundayF|SundayB\n";
   foreach ($monthList as $monthfull) {
     $fullOutput .= $monthfull;

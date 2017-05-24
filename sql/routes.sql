@@ -1,4 +1,4 @@
-insert into routes(start_station_code, end_station_code, station_code, time_from_start) values(
+insert into routes(start_station_code, end_station_code, station_code, time_from_start) values
   ('WP','SO','NC',6),
   ('WP','SO','CN',10),
   ('WP','SO','PH',15),
@@ -101,5 +101,4 @@ insert into routes(start_station_code, end_station_code, station_code, time_from
   ('WS','DC','24',61),
   ('WS','DC','GP',64),
   ('WS','DC','BP',66),
-  ('WS','DC','DC',70),
-)
+  ('WS','DC','DC',70);

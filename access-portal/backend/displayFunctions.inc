@@ -52,7 +52,12 @@ function printStationData($stationList) {
     print "     <td><a href=\"".$stationData[$station]['bart_page']."\">".$stationData[$station]['bart_page']."</a></td>\n";
   }
   print "    </tr>\n";
-  
+  print "    <tr>\n";
+  print "      <td>Opening date</td>\n";
+  foreach ($stationList as $station) {
+    print "     <td>".$stationData[$station]['opening_date']."</td>\n";
+  }
+  print "    </tr>\n";
   print "</table>\n";
 }
 

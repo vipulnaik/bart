@@ -41,7 +41,7 @@ print '</table>';
 print '</form>';
 include_once("backend/backendQueries.inc");
 include_once("backend/displayFunctions.inc");
-# printStationData(array($entryStation, $exitStation));
+printStationData(array($entryStation, $exitStation));
 printRoutesAndFares($entryStation, $exitStation);
 printRidership($entryStation, $exitStation);
 print '</body>';

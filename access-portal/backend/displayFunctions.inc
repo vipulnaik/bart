@@ -1,6 +1,63 @@
 <?php
 
+function printStationData($stationList) {
+  global $mysqli;
+  $stationListString = "('".join("','",$stationList)."')";
+  $stationDataQuery = "select * from stations where code_2l in $stationListString";
+  $stationDataResult = $mysqli -> query($stationDataQuery);
+  for($i = 0; $i < $stationDataResult -> num_rows; $i++) {
+    $stationDataRow = $stationDataResult -> fetch_assoc();
+    $stationData[$stationDataRow['code_2l']] = $stationDataRow;
+  }
+  print '<table border="1">'."\n";
+  print "    <tr>\n";
+  print "      <th>Field name</th>\n";
+  foreach ($stationList as $station) {
+    print "      <th>Value for station $station</th>\n";
+  }
+  print "    </tr>\n";
+  print "    <tr>\n";
+  print "      <td>2-letter code (used in ridership reports)</td>\n";
+  foreach ($stationList as $station) {
+    print "      <td>$station</td>\n";
+  }
+  print "    </tr>\n";
+  print "    <tr>\n";
+  print "      <td>4-letter code (used in APIs and on BART website)</td>\n";
+  foreach ($stationList as $station) {
+    print "      <td>".$stationData[$station]['code_4l']."</td>\n";
+  }
+  print "    </tr>\n";
+  print "    <tr>\n";
+  print "      <td>Long code (used in fares and schedules brochure)</td>\n";
+  foreach ($stationList as $station) {
+    print "      <td>".$stationData[$station]['code_long']."</td>\n";
+  }
+  print "    </tr>\n";
+  print "    <tr>\n";
+  print "      <td>Ordinary name</td>\n";
+  foreach ($stationList as $station) {
+    print "     <td>".$stationData[$station]['ordinary_name']."</td>\n";
+  }
+  print "    </tr>\n";
+  print "    <tr>\n";
+  print "      <td>Wikipedia page</td>\n";
+  foreach ($stationList as $station) {
+    print "     <td><a href=\"".$stationData[$station]['wikipedia_page']."\">".$stationData[$station]['wikipedia_page']."</a></td>\n";
+  }
+  print "    </tr>\n";
+  print "    <tr>\n";
+  print "      <td>BART page</td>\n";
+  foreach ($stationList as $station) {
+    print "     <td><a href=\"".$stationData[$station]['bart_page']."\">".$stationData[$station]['bart_page']."</a></td>\n";
+  }
+  print "    </tr>\n";
+  
+  print "</table>\n";
+}
+
 function printRoutesAndFares($entryStation, $exitStation) {
+  $routesAndTimes = getRoutesAndTimes($entryStation, $exitStation);
   print "\n";
   if ($entryStation == "total" or $exitStation == "total") {
   } else if (count($routesAndTimes) == 0) {
@@ -23,7 +80,6 @@ function printRidership($entryStation, $exitStation) {
   global $generateGraphCmdBase;
   $queryStartTime = microtime(true);
   $permalinkUrl = "https://bart.vipulnaik.com/ridership.php?entryStation=$entryStation&exitStation=$exitStation";
-  $routesAndTimes = getRoutesAndTimes($entryStation, $exitStation);
   $forwardRidership = getRidership($entryStation, $exitStation);
   $reverseRidership = getRidership($exitStation, $entryStation);
   $queryEndTime = microtime(true);

@@ -1,11 +1,29 @@
 <?php
 
+function printRoutesAndFares($entryStation, $exitStation) {
+  print "\n";
+  if ($entryStation == "total" or $exitStation == "total") {
+  } else if (count($routesAndTimes) == 0) {
+    print "<p>No direct routes available</p>";
+  } else if ($entryStation == $exitStation) {
+    print "<p>Entry and exit station are the same</p>";
+  } else {
+    print "<p>List of direct routes available below:</p>"; 
+    print "<ul>";
+    foreach($routesAndTimes as $routeAndTime) {
+      print "<li><p>".$routeAndTime['time']." minutes on route ".$routeAndTime['start']." -> ".$routeAndTime['end']."</p></li>";
+    }
+    print "</ul>";   
+  }
+}
+
 function printRidership($entryStation, $exitStation) {
   global $monthList;
   global $imagesPath;
   global $generateGraphCmdBase;
   $queryStartTime = microtime(true);
   $permalinkUrl = "https://bart.vipulnaik.com/ridership.php?entryStation=$entryStation&exitStation=$exitStation";
+  $routesAndTimes = getRoutesAndTimes($entryStation, $exitStation);
   $forwardRidership = getRidership($entryStation, $exitStation);
   $reverseRidership = getRidership($exitStation, $entryStation);
   $queryEndTime = microtime(true);

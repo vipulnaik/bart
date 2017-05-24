@@ -39,8 +39,10 @@ print '<tr><td><input type="submit" value="Submit"></td>';
 print '</tr>';
 print '</table>';
 print '</form>';
-include_once("backend/ridershipQueries.inc");
+include_once("backend/backendQueries.inc");
 include_once("backend/displayFunctions.inc");
+# printStationData(array($entryStation, $exitStation));
+printRoutesAndFares($entryStation, $exitStation);
 printRidership($entryStation, $exitStation);
 print '</body>';
 ?>

@@ -67,7 +67,7 @@ create table routes(
 ) ENGINE=InnoDB AUTO_INCREMENT=14342355 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 create table fares(
-  start_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,,
+  start_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   end_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   fare float(5,2),
   effective_date date not null

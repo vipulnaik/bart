@@ -1,7 +1,16 @@
 <?php
 print '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8" >';
-print '<title>BART: Historical ridership, route, and price data</title>';
-include_once('analytics.inc');
+$station = '12';
+if (!empty($_REQUEST['station'])) {
+  $station = $_REQUEST['station'];
+}
+$month = '2017-04';
+if (!empty($_REQUEST['month'])) {
+  $month = $_REQUEST['month'];
+}
+
+print "<title>BART $station Station Data</title>";
+include_once("analytics.inc");
 include_once("backend/globalVariables/passwordFile.inc");
 include_once("backend/globalVariables/globalVariables.inc");
 print '<link href="style.css" rel="stylesheet" type="text/css" />'."\n";
@@ -11,27 +20,10 @@ print '</head>';
 print '<body>';
 print '<script>$(document).ready(function()
     {
+        $("#ridershipData").tablesorter();
     }
 ); </script>'."\n";
 include_once('preamble.inc');
-print "<h4>Ridership, fare and route data between your chosen pair of stations</h4>\n";
-print '<form method="post" action="ridership.php">'."\n";
-print "<table>\n";
-print "    <tr>\n";
-print "      <td>Entry station (station 1)</td>\n";
-$stationVariableName = "entryStation";
-include("backend/stationDropdown.inc");
-print "    </tr>\n";
-print "    <tr>\n";
-print "    <td>Exit station (station 2)</td>\n";
-$stationVariableName = "exitStation";
-include("backend/stationDropdown.inc");
-print "    <tr>\n";
-print '      <td><input type="submit" value="Submit"></td>'."\n";
-print "    </tr>\n";
-print "</table>\n";
-print "</form>\n";
-print "<h4>Station data for a single station</h4>\n";
 print '<form method="post" action="station.php">';
 print "<table>\n";
 print "    <tr>\n";
@@ -49,5 +41,13 @@ print '      <td><input type="submit" value="Submit"></td>'."\n";
 print "    </tr>\n";
 print "</table>\n";
 print "</form>\n";
-print "</body>\n";
+include_once("backend/backendQueries.inc");
+include_once("backend/displayFunctions.inc");
+$permalinkUrl = "https://bart.vipulnaik.com/station.php?station=$station&month=$month";
+print "<p>Permalink URL: <a href=\"$permalinkUrl\">$permalinkUrl</a></p>";
+function notTotal($stationName) {
+  return ($stationName != "total");
+}
+printStationData(array_filter(array($station),"notTotal"));
+print '</body>';
 ?>

@@ -72,7 +72,7 @@ function printRoutesAndFares($entryStation, $exitStation) {
     print "<p>Since the entry and exit station are the same, the effective fare is $0 if you do not enter BART. However, if you do enter BART at the station and exit it again at the same station, you are charged the excursion fare of $5.75.</p>\n";
   } else {
     print "\n";
-    print "<p>Fare between stations stations $entryStation and $exitStation:</p>\n";
+    print "<p>Fare between stations stations ".getStationName($entryStation)." and ".getStationName($exitStation).":</p>\n";
     print "<ul>\n";
     for ($i=0; $i < count($faresAndEffectiveDates); $i++) {
       print "    <li><p>Fare of $".sprintf('%.2f',$faresAndEffectiveDates[$i]['fare'])." effective since ".$faresAndEffectiveDates[$i]['effective_date']."</p></li>\n";

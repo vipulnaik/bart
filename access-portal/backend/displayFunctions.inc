@@ -96,7 +96,7 @@ function printRoutesAndFares($entryStation, $exitStation) {
       print "<ul>\n";
       foreach($routesAndTimesPairs as $routesAndTimesPair) {
         $timeForThisJourney =  $routesAndTimesPair['leg1'][0]['time'] + $routesAndTimesPair['leg2'][0]['time'];
-        print "    <li><p>Transfer via the station ".getStationName($routesAndTimesPair['transferStation']).", total time $timeForThisJourney minutes.</p>\n";
+        print "    <li><p>Transfer via the station ".getStationName($routesAndTimesPair['transferStation']).", total time $timeForThisJourney minutes (excluding time taken waiting for transfer).</p>\n";
         print "      <ul>\n";
         print "        <li><p>Leg 1</p>\n";
         print "          <ul>\n";

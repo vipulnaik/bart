@@ -70,7 +70,8 @@ create table fares(
   start_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   end_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   fare float(5,2),
-  effective_date date not null
+  effective_date date not null,
+  unique `sed` (start_station_code, end_station_code, effective_date)
 ) ENGINE=InnoDB AUTO_INCREMENT=12742355 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 insert into stations(code_2l, code_4l, code_long, ordinary_name, wikipedia_page, bart_page, airport, muni_connection, caltrain_connection, amtrak_connection, end_of_line, trains_can_turn, opening_date) values

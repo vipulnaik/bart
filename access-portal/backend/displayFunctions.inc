@@ -66,7 +66,19 @@ function printStationData($stationList) {
 
 function printRoutesAndFares($entryStation, $exitStation) {
   $routesAndTimes = getRoutesAndTimes($entryStation, $exitStation);
-  print "\n";
+  $faresAndEffectiveDates = getFaresAndEffectiveDates($entryStation, $exitStation);
+  if ($entryStation == "total" and $exitStation == "total") {
+  } else if ($entryStation == $exitStation) {
+    print "<p>Since the entry and exit station are the same, the effective fare is $0 if you do not enter BART. However, if you do enter BART at the station and exit it again at the same station, you are charged the excursion fare of $5.75.</p>\n";
+  } else {
+    print "\n";
+    print "<p>Fare between stations stations $entryStation and $exitStation:</p>\n";
+    print "<ul>\n";
+    for ($i=0; $i < count($faresAndEffectiveDates); $i++) {
+      print "    <li><p>Fare of $".sprintf('%.2f',$faresAndEffectiveDates[$i]['fare'])." effective since ".$faresAndEffectiveDates[$i]['effective_date']."</p></li>\n";
+    }
+  }
+  print "</ul>\n";
   if ($entryStation == "total" or $exitStation == "total") {
   } else if (count($routesAndTimes) == 0) {
     print "<p>No direct routes available</p>";

@@ -8,4 +8,5 @@ for ($i = 0; $i < $result -> num_rows; $i++) {
 }
 sort($monthListOriginal);
 $monthList = array_reverse($monthListOriginal);
+$excursionFare = 5.75;
 ?>

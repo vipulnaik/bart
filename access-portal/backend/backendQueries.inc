@@ -1,5 +1,18 @@
 <?php
 
+function getFaresAndEffectiveDates($entryStation, $exitStation) {
+  global $mysqli;
+  $fareQuery = "select fare, effective_date from fares where start_station_code = '$entryStation' and end_station_code = '$exitStation' or start_station_code = '$exitStation' and end_station_code = '$entryStation' order by effective_date desc;";
+  # print("Fare query: $fareQuery");
+  $fareRows = array();
+  $fareResult = $mysqli -> query($fareQuery);
+  for ($i=0;$i < $fareResult -> num_rows; $i++) {
+    $fareResultRow = $fareResult -> fetch_assoc();
+    array_push($fareRows, $fareResultRow);
+  }
+  return $fareRows;
+}
+
 function getRidership($entryStation, $exitStation) {
   global $mysqli;
   $ridershipQuery = "";

@@ -80,17 +80,43 @@ function printRoutesAndFares($entryStation, $exitStation) {
   }
   print "</ul>\n";
   if ($entryStation == "total" or $exitStation == "total") {
-  } else if (count($routesAndTimes) == 0) {
-    print "<p>No direct routes available</p>";
   } else if ($entryStation == $exitStation) {
     print "<p>Entry and exit station are the same</p>";
-  } else {
+  } else if (count($routesAndTimes) > 0) {
     print "<p>List of direct routes available below:</p>"; 
     print "<ul>";
     foreach($routesAndTimes as $routeAndTime) {
-      print "<li><p>".$routeAndTime['time']." minutes on route ".$routeAndTime['start']." -> ".$routeAndTime['end']."</p></li>";
+      print "<li><p>".$routeAndTime['time']." minutes on route ".getStationName($routeAndTime['start'])." -> ".getStationName($routeAndTime['end'])."</p></li>";
     }
     print "</ul>";   
+  } else {
+    $routesAndTimesPairs = getRoutesAndTimesIndirect($entryStation, $exitStation);
+    if (count($routesAndTimesPairs) > 0) {
+      print "<p>No direct routes available between ".getStationName($entryStation)." and ".getStationName($exitStation).". List of indirect routes available below.</p>\n";
+      print "<ul>\n";
+      foreach($routesAndTimesPairs as $routesAndTimesPair) {
+        $timeForThisJourney =  $routesAndTimesPair['leg1'][0]['time'] + $routesAndTimesPair['leg2'][0]['time'];
+        print "    <li><p>Transfer via the station ".getStationName($routesAndTimesPair['transferStation']).", total time $timeForThisJourney minutes.</p>\n";
+        print "      <ul>\n";
+        print "        <li><p>Leg 1</p>\n";
+        print "          <ul>\n";
+        foreach ($routesAndTimesPair['leg1'] as $routeAndTime) {
+          print "<li><p>".$routeAndTime['time']." minutes on route ".getStationName($routeAndTime['start'])." -> ".getStationName($routeAndTime['end'])."</p></li>";
+        }
+        print "          </ul></li>\n";
+        print "        <li><p>Leg 2</p>\n";
+        print "          <ul>\n";
+        foreach ($routesAndTimesPair['leg2'] as $routeAndTime) {
+          print "<li><p>".$routeAndTime['time']." minutes on route ".getStationName($routeAndTime['start'])." -> ".getStationName($routeAndTime['end'])."</p></li>";
+        }
+        print "          </ul></li>\n";
+        print "      </ul>\n";
+        print "    </li>\n";
+      }
+      print "</ul>\n";
+    } else {
+      print "<p>No direct or indirect routes available between $entryStation and $exitStation.</p>";
+    }
   }
 }
 
@@ -104,7 +130,7 @@ function printRidership($entryStation, $exitStation) {
   $reverseRidership = getRidership($exitStation, $entryStation);
   $queryEndTime = microtime(true);
   $queryTimeTaken = $queryEndTime - $queryStartTime;
-  print "<p>The graph and table below shows average weekday, Saturday, and Sunday ridership between the stations $entryStation and $exitStation</p>";
+  print "<p>The graph and table below shows average weekday, Saturday, and Sunday ridership between the stations ".getStationName($entryStation)." and ".getStationName($exitStation)."</p>";
   $fullOutput = "Month|WeekdayF|WeekdayB|SaturdayF|SaturdayB|SundayF|SundayB\n";
   foreach ($monthList as $monthfull) {
     $fullOutput .= $monthfull;

@@ -4,7 +4,7 @@ print '<td><select name="'.$stationVariableName.'">';
 $query = "select * from stations order by ordinary_name;";
 $result = $mysqli -> query($query);
 print "<option value=\"total\"";
-if (($stationVariablename == "entryStation" and $entryStation == "total") or ($stationVariableName == "exitStation" and $exitStation == "total") or ($stationVariableName == "station" and $station == "total")) {
+if (($stationVariableName == "entryStation" and $entryStation == "total") or ($stationVariableName == "exitStation" and $exitStation == "total") or ($stationVariableName == "station" and $station == "total")) {
   print ' selected';
 }
 print ">Total across all stations</option>\n";

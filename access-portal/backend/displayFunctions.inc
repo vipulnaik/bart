@@ -72,7 +72,7 @@ function printRoutesAndFares($entryStation, $exitStation) {
     print "<p>Since the entry and exit station are the same, the effective fare is $0 if you do not enter BART. However, if you do enter BART at the station and exit it again at the same station, you are charged the excursion fare of $5.75.</p>\n";
   } else {
     print "\n";
-    print "<p>Fare between stations stations ".getStationName($entryStation)." and ".getStationName($exitStation).":</p>\n";
+    print "<p>Fare between stations ".getStationName($entryStation)." and ".getStationName($exitStation).":</p>\n";
     print "<ul>\n";
     for ($i=0; $i < count($faresAndEffectiveDates); $i++) {
       print "    <li><p>Fare of $".sprintf('%.2f',$faresAndEffectiveDates[$i]['fare'])." effective since ".$faresAndEffectiveDates[$i]['effective_date']."</p></li>\n";
@@ -86,7 +86,11 @@ function printRoutesAndFares($entryStation, $exitStation) {
     print "<p>List of direct routes available below:</p>"; 
     print "<ul>";
     foreach($routesAndTimes as $routeAndTime) {
-      print "<li><p>".$routeAndTime['time']." minutes on route ".getStationName($routeAndTime['start'])." -> ".getStationName($routeAndTime['end'])."</p></li>";
+      print "<li><p>".$routeAndTime['time']." minute";
+      if ($routeAndTime['time'] != 1) {
+        print "s";
+      }
+      print " on route ".getStationName($routeAndTime['start'])." -> ".getStationName($routeAndTime['end'])."</p></li>";
     }
     print "</ul>";   
   } else {
@@ -120,6 +124,15 @@ function printRoutesAndFares($entryStation, $exitStation) {
   }
 }
 
+function expandStationInfo($station) {
+  if ($station == "total") {
+    return "all stations";
+  } else {
+    $stationName = getStationName($station);
+    return "the station $stationName ($station)";
+  }
+}
+
 function printRidership($entryStation, $exitStation) {
   global $monthList;
   global $imagesPath;
@@ -130,7 +143,9 @@ function printRidership($entryStation, $exitStation) {
   $reverseRidership = getRidership($exitStation, $entryStation);
   $queryEndTime = microtime(true);
   $queryTimeTaken = $queryEndTime - $queryStartTime;
-  print "<p>The graph and table below shows average weekday, Saturday, and Sunday ridership between the stations ".getStationName($entryStation)." and ".getStationName($exitStation)."</p>";
+  $entryStationInfo = expandStationInfo($entryStation);
+  $exitStationInfo = expandStationInfo($exitStation);
+  print "<p>The graph and table below shows average weekday, Saturday, and Sunday ridership between $entryStationInfo and $exitStationInfo.</p>";
   $fullOutput = "Month|WeekdayF|WeekdayB|SaturdayF|SaturdayB|SundayF|SundayB\n";
   foreach ($monthList as $monthfull) {
     $fullOutput .= $monthfull;

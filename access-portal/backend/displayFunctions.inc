@@ -20,7 +20,7 @@ function printStationData($stationList) {
   }
   print "    </tr>\n";
   print "    <tr>\n";
-  print "      <td>2-letter code (used in ridership reports)</td>\n";
+  print "      <td>2-letter code (used in ridership reports; see <a href=\"https://www.bart.gov/sites/default/files/docs/Station_Names.xls\">Station Name Abbreviations (XLS)</a>)</td>\n";
   foreach ($stationList as $station) {
     print "      <td>$station</td>\n";
   }

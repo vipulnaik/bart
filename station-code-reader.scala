@@ -6,7 +6,7 @@ for (year <- 2000 to 2017) {
   for (month <- 1 to 12) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
-      val path = s"/Users/admin/gitcode/bart/ridership/$monthfull/$dayType.csv"
+      val path = s"/Users/vipulnaik/git/bart/ridership/$monthfull/$dayType.csv"
       val data = File.readString(path).split("\n") // Using library used at work; replace with generic Scala file reader
 
       val stationCodes = data(1).tail.split(",").filter(_.size == 2)
@@ -32,4 +32,4 @@ for (year <- 2000 to 2017) {
   }
 }
 
-File.writeString(sb.toString(), "/Users/admin/gitcode/bart/ridership/insertions.sql")
+File.writeString(sb.toString(), "/Users/vipulnaik/git/bart/ridership/insertions.sql")

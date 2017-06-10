@@ -656,7 +656,7 @@ insert into fares(start_station_code, end_station_code, fare, effective_date) va
 
   ('LF','WC',1.25,'2005-09-12'),
   ('LF','PH',1.25,'2005-09-12'),
-  ('LF','CN',1,25,'2005-09-12'),
+  ('LF','CN',1.25,'2005-09-12'),
   ('LF','NC',2.25,'2005-09-12'),
   ('LF','WP',2.75,'2005-09-12'),
   ('LF','AS',2.20,'2005-09-12'),

@@ -1,0 +1,22 @@
+All code in this repository,
+https://github.com/vipulnaik/bart, written primarily by
+Vipul Naik, is released to the
+public domain via the CC0 license. Read
+https://creativecommons.org/publicdomain/zero/1.0/ for more details.
+
+The data on ridership, fares, and stations contained in the repository
+mostly comes from the Bay Area Rapid Transit (BART) website (bart.gov)
+and is not subject to copyright under United States law; see
+https://www.lib.umn.edu/datamanagement/copyright and
+https://law.stackexchange.com/questions/11359/can-you-copyright-data
+for more information. However, to the extent that a copyright can be
+asserted, copyright for data from bart.gov would fall under the
+copyright of BART, as described at
+https://www.bart.gov/siteinfo/copyright whereas copyright for data
+from other sources would lie with the respective sources.
+
+Referenced or linked material, or code libraries used, may be subject
+to their own copyright restrictions.
+
+
+

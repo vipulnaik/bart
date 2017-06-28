@@ -122,4 +122,19 @@ function getStationName($code_2l) {
   }
 }
 
+function getRoutesBeforeOrAfter($start_station_code, $end_station_code, $station_code, $time_from_start, $beforeOrAfter = 'before') {
+  global $mysqli;
+  $symbol = "<=";
+  if (beforeOrAfter == "after") {
+    $symbol = ">";
+  }
+  $stationsQuery = "select station_code, time_from_start from routes where start_station_code='$start_station_code' and end_station_code='$end_station_code' and $station_code != '$station_code' and time_from_start $symbol $time_from_start";
+  $stationsResult = $mysqli -> query($stationsQuery);
+  $stationList = array();
+  for($i = 0; $i < $stationsResult -> num_rows; $i++) {
+    $stationsRow = $stationsResult -> fetch_assoc();
+    array_push($stationList, $stationsRow);
+  }
+  return $stationList;
+}
 ?>

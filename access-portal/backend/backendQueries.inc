@@ -137,4 +137,18 @@ function getRoutesBeforeOrAfter($start_station_code, $end_station_code, $station
   }
   return $stationList;
 }
+
+function getSortedRoutesList($station_code) {
+  global $mysqli;
+  $routesQuery = "select start_station_code, end_Station_code, time_from_start from routes where station_code='$station_code';";
+  $routesResult = $mysqli -> query ($routesQuery);
+  $stationArray = array();
+  for ($i=0;$i < $routesResult -> num_rows; $i++) {
+    $routesResultRow = $routesResult -> fetch_assoc();
+    $start_station_code = $routesResultRow['start_station_code'];
+    $end_station_code = $routesResultRow['end_station_code'];
+    $time_from_start = $routesResultRow['time_from_start'];
+  }
+}
+
 ?>

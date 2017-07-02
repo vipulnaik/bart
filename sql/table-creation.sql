@@ -5,7 +5,10 @@ create table ridership(
   entry_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   exit_station_code enum('12','16','19','24','AS','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   ridercount int(11) not null,
-  unique mtee(monthfull, day_type, entry_station_code, exit_station_code)
+  unique mtee(monthfull, day_type, entry_station_code, exit_station_code),
+  index ee(entry_station_code, exit_station_code),
+  index me1(monthfull, entry_station_code),
+  index me2(monthfull, exit_station_code)
 ) ENGINE=InnoDB AUTO_INCREMENT=15239276 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 create table ridership_entry_total(

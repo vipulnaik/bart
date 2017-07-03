@@ -27,7 +27,7 @@ for (year <- 2001 to 2017) {
 
       sb ++= queryString + "\n"
     } catch {
-      case e: Exception => println(s"Encountered error ${e.toString}on year $year and month $month, stack trace ${e.getStackTrace.take(20).mkString("\n")}")
+      case e: Exception => println(s"Encountered error ${e.toString} on year $year and month $month, stack trace ${e.getStackTrace.take(20).mkString("\n")}")
     }
   }
 }

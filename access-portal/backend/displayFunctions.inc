@@ -143,6 +143,11 @@ function printRidershipOneMonth($station, $monthfull) {
     $row = $result -> fetch_assoc();
     array_push($allStations, $row['code_2l']);
     $fullStationName[$row['code_2l']] = $row['ordinary_name'];
+    $openingDate[$row['code_2l']] = $row['opening_date'];
+  }
+  if (!isset($fullStationName[$station])) {
+    print "<p>The station ".getStationName($station)." ($station) was not yet open for revenue service as of the month $monthfull that you have selected. Therefore we have no fare, time, or ridership data to print. Please select a month containing or after the opening date of the station printed in the table above.</p>";
+    return;
   }
   $entryRidership = getRidershipOneMonth($station, $monthfull, "entry");
   $exitRidership = getRidershipOneMonth($station, $monthfull, "exit");

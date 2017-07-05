@@ -49,5 +49,6 @@ function notTotal($stationName) {
   return ($stationName != "total");
 }
 printStationData(array_filter(array($station),"notTotal"));
+printRidershipOneMonth($station, $month);
 print '</body>';
 ?>

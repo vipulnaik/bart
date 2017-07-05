@@ -91,7 +91,7 @@ function getRoutesAndTimes($entryStation, $exitStation) {
     $routesAndTimes = array($routeAndTime);
     return $routesAndTimes;
   } else {
-    $routeQuery = "select start_station_code, end_station_code, sum(case when station_code = '$entryStation' then time_from_start else case when start_station_code = '$entryStation' then 0 else -1 end end) as time1, sum(case when station_code = '$exitStation' then time_from_start else case when start_station_code = '$exitStation' then 0 else -1 end end) as time2 from routes where station_code in ('$entryStation', '$exitStation') or start_station_code in ('$entryStation','$exitStation') group by start_station_code, end_station_code;";
+    $routeQuery = "select start_station_code, end_station_code, max(case when station_code = '$entryStation' then time_from_start else case when start_station_code = '$entryStation' then 0 else -1 end end) as time1, max(case when station_code = '$exitStation' then time_from_start else case when start_station_code = '$exitStation' then 0 else -1 end end) as time2 from routes where station_code in ('$entryStation', '$exitStation') or start_station_code in ('$entryStation','$exitStation') group by start_station_code, end_station_code;";
     # print "Running routeQuery = $routeQuery";
     $routeResult = $mysqli -> query($routeQuery);
     $routesAndTimes = array();

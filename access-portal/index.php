@@ -31,7 +31,7 @@ print '      <td><input type="submit" value="Submit"></td>'."\n";
 print "    </tr>\n";
 print "</table>\n";
 print "</form>\n";
-print "<h4>Station data for a single station</h4>\n";
+print "<h4>Station data for a single station, including fares, time, and ridership to all other stations in a given month</h4>\n";
 print '<form method="post" action="station.php">';
 print "<table>\n";
 print "    <tr>\n";

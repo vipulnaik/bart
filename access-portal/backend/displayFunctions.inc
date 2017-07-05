@@ -163,13 +163,17 @@ function printRidershipOneMonth($station, $monthfull) {
   }
   $queryEndTime = microtime(true);
   $queryTimeTaken = $queryEndTime - $queryStartTime;
-  
+  if ($station != "total") {
+    print "<p>Note that fare data may not be accurate for months older than February 2016, as we have not entered the full history of fare schedules yet. Also, time data is estimated and may be missing or inaccurate for some station pairs.</p>\n";
+  }
   print '<table id="ridershipData" class="tablesorter">'."\n";
   print "<thead>\n";
   print "    <tr>\n";
-  print "      <th>Other station</th>\n";  
-  print "      <th>Travel time</th>\n";
-  print "      <th>Fare</th>\n";
+  print "      <th>Other station</th>\n";
+  if ($station != "total") {
+    print "      <th>Travel time</th>\n";
+    print "      <th>Fare</th>\n";
+  }
   print "      <th>Weekday $station -> row station</th>\n";
   print "      <th>Weekday row station -> $station</th>\n";
   print "      <th>Saturday $station -> row station</th>\n";
@@ -182,8 +186,10 @@ function printRidershipOneMonth($station, $monthfull) {
   foreach ($allStations as $otherStation) {
     print "    <tr>\n";
     print "      <td><a href=\"/ridership.php?entryStation=$station&exitStation=$otherStation\">".$fullStationName[$otherStation]." ($otherStation)</a></td>";
-    print "      <td align=\"right\">$timeForStation[$otherStation]</td>\n";
-    print "      <td align=\"right\">$fareForStation[$otherStation]</td>\n";
+    if ($station != "total") {
+      print "      <td align=\"right\">$timeForStation[$otherStation]</td>\n";
+      print "      <td align=\"right\">$fareForStation[$otherStation]</td>\n";
+    }
     print "      <td align=\"right\">".$entryRidership[$otherStation]['weekday']."</td>\n";
     print "      <td align=\"right\">".$exitRidership[$otherStation]['weekday']."</td>\n";
     print "      <td align=\"right\">".$entryRidership[$otherStation]['saturday']."</td>\n";

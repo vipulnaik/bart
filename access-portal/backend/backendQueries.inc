@@ -38,6 +38,34 @@ function getRidership($entryStation, $exitStation) {
   return $ridership;
 }
 
+function getRidershipOneMonth($station, $monthfull, $entryOrExit = "entry") {
+  global $mysqli;
+  $ridershipQuery = "";
+  if ($station == "total" && $entryOrExit == "entry") {
+    $ridershipQuery = "select * from ridership_exit_total where monthfull='$monthfull';";
+  } else if ($station == "total") {
+    $ridershipQuery = "select * from ridership_entry_total where monthfull='$monthfull';";
+  } else if ($entryOrExit == "entry") {
+    $ridershipQuery = "select * from ridership where entry_station_code='$station' and $monthfull='$monthfull';";
+  } else if ($entryOrExit == "exit") {
+    $ridershipQuery = "select * from ridership where exit_station_code='$station' and $monthfull='$monthfull';";
+  }
+  $ridershipResult = $mysqli -> query($ridershipQuery);
+  for ($i = 0; $i < $ridershipResult -> num_rows; $i++) {
+    $ridershipRow = $ridershipResult -> fetch_assoc();
+    $otherStation = "";
+    if ($entryOrExit == "entry") {
+      $otherStation = $ridershipRow['exit_station_code'];
+    } else {
+      $otherStation = $ridershipRow['entry_station_code'];
+    }
+    $dayType = $ridershipRow['day_type'];
+    $riderCount = $ridershipRow['ridercount'];
+    $ridership[$otherStation][$dayType] = $riderCount;
+  }
+  return $ridership;
+}
+
 function getRoutesAndTimes($entryStation, $exitStation) {
   global $mysqli;
   # print "Entered getRoutesAndTimes with entryStation = $entryStation and exitStation = $exitStation<br/>\n";  

@@ -133,6 +133,47 @@ function expandStationInfo($station) {
   }
 }
 
+function printRidershipOneMonth($station, $monthfull) {
+  $entryRidership = getRidershipOneMonth($station, $monthfull, "entry");
+  $exitRidership = getRidershipOneMonth($station, $monthfull, "exit");
+  $allStations = array_keys($entryRidership);
+  sort($allStations);
+  print '<table id="ridershipData" class="tablesorter">'."\n";
+  print "<thead>\n";
+  print "    <tr>\n";
+  print "      <th>Travel time</th>\n";
+  print "      <th>Fare</th>\n";
+  print "      <th>Other station</th>\n";
+  print "      <th>Weekday $station -> $otherStation</th>\n";
+  print "      <th>Weekday $otherStation -> $station</th>\n";
+  print "      <th>Saturday $station -> $otherStation<th>\n";
+  print "      <th>Saturday $otherStation -> $station</th>\n";
+  print "      <th>Sunday $station -> $otherStation</th>\n";
+  print "      <th>Sunday $otherStation -> $station</th>\n";
+  print "    </tr>\n";
+  print "</thead>\n";
+  print "<tbody>\n";
+  foreach ($allStations as $otherStation) {
+    print "    <tr>\n";
+    print "      <td>".getStationName($otherStation)." ($otherStation)</td>";
+    $routesAndTimes = getRoutesAndTimes($station, $otherStation);
+    if (count($routesAndTimes) > 0) {
+      print "      <td>".$routesAndTimes[0]['time']."</td>\n";
+    } else {
+      print "      <td></td>\n";
+    }
+    print "      <td></td>\n";
+    print "      <td>".$entryRidership[$otherStation]['weekday']."</td>\n";
+    print "      <td>".$exitRidership[$otherStation]['weekday']."</td>\n";
+    print "      <td>".$entryRidership[$otherStation]['saturday']."</td>\n";
+    print "      <td>".$exitRidership[$otherStation]['saturday']."</td>\n";
+    print "      <td>".$entryRidership[$otherStation]['sunday']."</td>\n";
+    print "      <td>".$exitRidership[$otherStation]['sunday']."</td>\n";
+    print "    <tr>\n";
+  }
+  print "</table>";
+}
+
 function printRidership($entryStation, $exitStation) {
   global $monthList;
   global $imagesPath;

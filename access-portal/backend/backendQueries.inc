@@ -13,6 +13,20 @@ function getFaresAndEffectiveDates($entryStation, $exitStation) {
   return $fareRows;
 }
 
+function getApplicableFareForMonth($entryStation, $exitStation, $monthfull) {
+  global $mysqli;
+  $applicableFareQuery = "select fare from fares where (start_station_code = '$entryStation' and end_station_code = '$exitStation' or start_station_code = '$exitStation' and end_station_code = '$entryStation') and effective_date <= '$monthfull"."-01' order by effective_date;";
+  $applicableFareResult = $mysqli -> query($applicableFareQuery);
+  if ($applicableFareResult -> num_rows == 0) {
+    return "N/A";
+  } else {
+    for ($i=0;$i < $applicableFareResult -> num_rows; $i++) {
+      $applicableFareRow = $applicableFareResult -> fetch_assoc();
+      $fare = $applicableFareRow['fare'];
+    }
+    return sprintf("%.2f",$fare);
+  }
+}
 function getRidership($entryStation, $exitStation) {
   global $mysqli;
   $ridershipQuery = "";
@@ -46,9 +60,9 @@ function getRidershipOneMonth($station, $monthfull, $entryOrExit = "entry") {
   } else if ($station == "total") {
     $ridershipQuery = "select * from ridership_entry_total where monthfull='$monthfull';";
   } else if ($entryOrExit == "entry") {
-    $ridershipQuery = "select * from ridership where entry_station_code='$station' and $monthfull='$monthfull';";
+    $ridershipQuery = "select * from ridership where entry_station_code='$station' and monthfull='$monthfull';";
   } else if ($entryOrExit == "exit") {
-    $ridershipQuery = "select * from ridership where exit_station_code='$station' and $monthfull='$monthfull';";
+    $ridershipQuery = "select * from ridership where exit_station_code='$station' and monthfull='$monthfull';";
   }
   $ridershipResult = $mysqli -> query($ridershipQuery);
   for ($i = 0; $i < $ridershipResult -> num_rows; $i++) {

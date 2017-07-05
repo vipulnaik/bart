@@ -134,10 +134,17 @@ function expandStationInfo($station) {
 }
 
 function printRidershipOneMonth($station, $monthfull) {
+  global $mysqli;
+  $allStations = array();
+  $query = "select * from stations where opening_date <= '$monthfull"."-31' order by ordinary_name;";
+  $result = $mysqli -> query($query);
+  for($i = 0; $i < $result -> num_rows; $i++) {
+    $row = $result -> fetch_assoc();
+    array_push($allStations, $row['code_2l']);
+    $fullStationName[$row['code_2l']] = $row['ordinary_name'];
+  }
   $entryRidership = getRidershipOneMonth($station, $monthfull, "entry");
   $exitRidership = getRidershipOneMonth($station, $monthfull, "exit");
-  $allStations = array_keys($entryRidership);
-  sort($allStations);
   print '<table id="ridershipData" class="tablesorter">'."\n";
   print "<thead>\n";
   print "    <tr>\n";
@@ -146,7 +153,7 @@ function printRidershipOneMonth($station, $monthfull) {
   print "      <th>Fare</th>\n";
   print "      <th>Weekday $station -> row station</th>\n";
   print "      <th>Weekday row station -> $station</th>\n";
-  print "      <th>Saturday $station -> row station<th>\n";
+  print "      <th>Saturday $station -> row station</th>\n";
   print "      <th>Saturday row station -> $station</th>\n";
   print "      <th>Sunday $station -> row station</th>\n";
   print "      <th>Sunday row station -> $station</th>\n";
@@ -155,22 +162,30 @@ function printRidershipOneMonth($station, $monthfull) {
   print "<tbody>\n";
   foreach ($allStations as $otherStation) {
     print "    <tr>\n";
-    print "      <td>".getStationName($otherStation)." ($otherStation)</td>";
+    print "      <td>".$fullStationName[$otherStation]." ($otherStation)</td>";
     $routesAndTimes = getRoutesAndTimes($station, $otherStation);
     if (count($routesAndTimes) > 0) {
-      print "      <td>".$routesAndTimes[0]['time']."</td>\n";
+      print "      <td align=\"right\">".$routesAndTimes[0]['time']."</td>\n";
     } else {
-      print "      <td></td>\n";
+      $routesAndTimesPairs = getRoutesAndTimesIndirect($station, $otherStation);
+      if (count($routesAndTimesPairs) > 0) {
+        $totalTime = $routesAndTimesPairs[0]['leg1'][0]['time'] + $routesAndTimesPairs[0]['leg2'][0]['time'];
+        print "     <td align=\"right\">$totalTime</td>\n";
+      } else {
+        print "      <td align=\"right\"></td>\n";
+      }
     }
-    print "      <td></td>\n";
-    print "      <td>".$entryRidership[$otherStation]['weekday']."</td>\n";
-    print "      <td>".$exitRidership[$otherStation]['weekday']."</td>\n";
-    print "      <td>".$entryRidership[$otherStation]['saturday']."</td>\n";
-    print "      <td>".$exitRidership[$otherStation]['saturday']."</td>\n";
-    print "      <td>".$entryRidership[$otherStation]['sunday']."</td>\n";
-    print "      <td>".$exitRidership[$otherStation]['sunday']."</td>\n";
-    print "    <tr>\n";
+    $fare = getApplicableFareForMonth($station, $otherStation, $monthfull);
+    print "      <td align=\"right\">$fare</td>\n";
+    print "      <td align=\"right\">".$entryRidership[$otherStation]['weekday']."</td>\n";
+    print "      <td align=\"right\">".$exitRidership[$otherStation]['weekday']."</td>\n";
+    print "      <td align=\"right\">".$entryRidership[$otherStation]['saturday']."</td>\n";
+    print "      <td align=\"right\">".$exitRidership[$otherStation]['saturday']."</td>\n";
+    print "      <td align=\"right\">".$entryRidership[$otherStation]['sunday']."</td>\n";
+    print "      <td align=\"right\">".$exitRidership[$otherStation]['sunday']."</td>\n";
+    print "    </tr>\n";
   }
+  print "</tbody>\n";
   print "</table>";
 }
 

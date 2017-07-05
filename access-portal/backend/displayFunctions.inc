@@ -67,7 +67,7 @@ function printStationData($stationList) {
 function printRoutesAndFares($entryStation, $exitStation) {
   $routesAndTimes = getRoutesAndTimes($entryStation, $exitStation);
   $faresAndEffectiveDates = getFaresAndEffectiveDates($entryStation, $exitStation);
-  if ($entryStation == "total" and $exitStation == "total") {
+  if ($entryStation == "total" or $exitStation == "total") {
   } else if ($entryStation == $exitStation) {
     print "<p>Since the entry and exit station are the same, the effective fare is $0 if you do not enter BART. However, if you do enter BART at the station and exit it again at the same station, you are charged the excursion fare of $5.75.</p>\n";
   } else {
@@ -135,6 +135,7 @@ function expandStationInfo($station) {
 
 function printRidershipOneMonth($station, $monthfull) {
   global $mysqli;
+  $queryStartTime = microtime(true);
   $allStations = array();
   $query = "select * from stations where opening_date <= '$monthfull"."-31' order by ordinary_name;";
   $result = $mysqli -> query($query);
@@ -145,6 +146,24 @@ function printRidershipOneMonth($station, $monthfull) {
   }
   $entryRidership = getRidershipOneMonth($station, $monthfull, "entry");
   $exitRidership = getRidershipOneMonth($station, $monthfull, "exit");
+  foreach ($allStations as $otherStation) {
+    $routesAndTimes = getRoutesAndTimes($station, $otherStation);
+    if (count($routesAndTimes) > 0) {
+      $timeForStation[$otherStation] = $routesAndTimes[0]['time'];
+    } else {
+      $routesAndTimesPairs = getRoutesAndTimesIndirect($station, $otherStation);
+      if (count($routesAndTimesPairs) > 0) {
+        $totalTime = $routesAndTimesPairs[0]['leg1'][0]['time'] + $routesAndTimesPairs[0]['leg2'][0]['time'];
+        $timeForStation[$otherStation] = $totalTime;
+      } else {
+        $timeForStation[$otherStation] = "";
+      }
+    }
+    $fareForStation[$otherStation] = getApplicableFareForMonth($station, $otherStation, $monthfull);
+  }
+  $queryEndTime = microtime(true);
+  $queryTimeTaken = $queryEndTime - $queryStartTime;
+  
   print '<table id="ridershipData" class="tablesorter">'."\n";
   print "<thead>\n";
   print "    <tr>\n";
@@ -162,21 +181,9 @@ function printRidershipOneMonth($station, $monthfull) {
   print "<tbody>\n";
   foreach ($allStations as $otherStation) {
     print "    <tr>\n";
-    print "      <td>".$fullStationName[$otherStation]." ($otherStation)</td>";
-    $routesAndTimes = getRoutesAndTimes($station, $otherStation);
-    if (count($routesAndTimes) > 0) {
-      print "      <td align=\"right\">".$routesAndTimes[0]['time']."</td>\n";
-    } else {
-      $routesAndTimesPairs = getRoutesAndTimesIndirect($station, $otherStation);
-      if (count($routesAndTimesPairs) > 0) {
-        $totalTime = $routesAndTimesPairs[0]['leg1'][0]['time'] + $routesAndTimesPairs[0]['leg2'][0]['time'];
-        print "     <td align=\"right\">$totalTime</td>\n";
-      } else {
-        print "      <td align=\"right\"></td>\n";
-      }
-    }
-    $fare = getApplicableFareForMonth($station, $otherStation, $monthfull);
-    print "      <td align=\"right\">$fare</td>\n";
+    print "      <td><a href=\"/ridership.php?entryStation=$station&exitStation=$otherStation\">".$fullStationName[$otherStation]." ($otherStation)</a></td>";
+    print "      <td align=\"right\">$timeForStation[$otherStation]</td>\n";
+    print "      <td align=\"right\">$fareForStation[$otherStation]</td>\n";
     print "      <td align=\"right\">".$entryRidership[$otherStation]['weekday']."</td>\n";
     print "      <td align=\"right\">".$exitRidership[$otherStation]['weekday']."</td>\n";
     print "      <td align=\"right\">".$entryRidership[$otherStation]['saturday']."</td>\n";
@@ -187,6 +194,11 @@ function printRidershipOneMonth($station, $monthfull) {
   }
   print "</tbody>\n";
   print "</table>";
+  $displayEndTime = microtime(true);
+  $displayTimeTaken = $displayEndTime - $queryEndTime;
+  $totalTimeTaken = $displayEndTime - $queryStartTime;
+  print "<p>Printed data for ".count($allStations)." stations (rows) and 8 columns (excluding header column), for a total of ".(count($allStations) * 8)." entries</p>";
+  print "<p>Total time taken: ".sprintf('%.3f',$totalTimeTaken)." seconds, ".sprintf('%.3f',$queryTimeTaken)." for query and ".sprintf('%.3f',$displayTimeTaken)." for display</p>\n";  
 }
 
 function printRidership($entryStation, $exitStation) {

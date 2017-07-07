@@ -63,12 +63,13 @@ def get_df(fname, top=0):
     df = df.sort_index()
     return df
 
-def do_a_plot(df, fname, kind, legend):
+def do_a_plot(df, fname, kind, legend=None):
     df.plot(kind=kind, legend=legend)
     # If we want rolling averages, we would set n to whatever the window length
     # is, but for now we don't, so just hard-code it to 1
     # n = 1
-    plt.savefig(fname)
+    plt.legend(bbox_to_anchor=(0.0, -0.14), loc='upper left', ncol=2)    
+    plt.savefig(fname, bbox_inches="tight")
     plt.clf()
     plt.close()
 

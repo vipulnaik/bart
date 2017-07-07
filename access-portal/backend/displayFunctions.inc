@@ -219,27 +219,38 @@ function printRidership($entryStation, $exitStation) {
   $queryStartTime = microtime(true);
   $permalinkUrl = "https://bart.vipulnaik.com/ridership.php?entryStation=$entryStation&exitStation=$exitStation";
   $forwardRidership = getRidership($entryStation, $exitStation);
-  $reverseRidership = getRidership($exitStation, $entryStation);
+  if ($entryStation != $exitStation) {
+    $reverseRidership = getRidership($exitStation, $entryStation);
+  }
   $queryEndTime = microtime(true);
   $queryTimeTaken = $queryEndTime - $queryStartTime;
   $entryStationInfo = expandStationInfo($entryStation);
   $exitStationInfo = expandStationInfo($exitStation);
   print "<p>The graph and table below shows average weekday, Saturday, and Sunday ridership between $entryStationInfo and $exitStationInfo.</p>";
-  $fullOutput = "Month|WeekdayF|WeekdayB|SaturdayF|SaturdayB|SundayF|SundayB\n";
+  $fullOutput = "Month|Weekday $entryStation -> $exitStation|Weekday $exitStation -> $entryStation|Saturday $entryStation -> $exitStation|Saturday $exitStation -> $entryStation|Sunday $entryStation -> $exitStation|Sunday $exitStation -> $entryStation\n";
+  if ($entryStation == $exitStation) {
+    $fullOutput = "Month|Weekday $entryStation -> $exitStation|Saturday $entryStation -> $exitStation|Sunday $entryStation -> $exitStation\n";
+  }
   foreach ($monthList as $monthfull) {
     $fullOutput .= $monthfull;
     $fullOutput .= '|';
     $fullOutput .= $forwardRidership[$monthfull]['weekday'];
-    $fullOutput .= '|';
-    $fullOutput .= $reverseRidership[$monthfull]['weekday'];
+    if ($entryStation != $exitStation) {
+      $fullOutput .= '|';
+      $fullOutput .= $reverseRidership[$monthfull]['weekday'];
+    }
     $fullOutput .= '|';
     $fullOutput .= $forwardRidership[$monthfull]['saturday'];
-    $fullOutput .= '|';
-    $fullOutput .= $reverseRidership[$monthfull]['saturday'];
+    if ($entryStation != $exitStation) {
+      $fullOutput .= '|';
+      $fullOutput .= $reverseRidership[$monthfull]['saturday'];
+    }
     $fullOutput .= '|';
     $fullOutput .= $forwardRidership[$monthfull]['sunday'];
-    $fullOutput .= '|';
-    $fullOutput .= $reverseRidership[$monthfull]['sunday'];
+    if ($entryStation != $exitStation) {
+      $fullOutput .= '|';
+      $fullOutput .= $reverseRidership[$monthfull]['sunday'];
+    }
     $fullOutput .= "\n";
   }
   $fileName = hash("md5",$permalinkUrl);
@@ -277,11 +288,17 @@ function printRidership($entryStation, $exitStation) {
   print "      <th>Year</th>\n";
   print "      <th>Month</th>\n";
   print "      <th>Weekday $entryStation -> $exitStation</th>\n";
-  print "      <th>Weekday $exitStation -> $entryStation</th>\n";
+  if ($entryStation != $exitStation) {
+    print "      <th>Weekday $exitStation -> $entryStation</th>\n";
+  }
   print "      <th>Saturday $entryStation -> $exitStation</th>\n";
-  print "      <th>Saturday $exitStation -> $entryStation</th>\n";
+  if ($entryStation != $exitStation) {
+    print "      <th>Saturday $exitStation -> $entryStation</th>\n";
+  }
   print "      <th>Sunday $entryStation -> $exitStation</th>\n";
-  print "      <th>Sunday $exitStation -> $entryStation</th>\n";
+  if ($entryStation != $exitStation) {
+    print "      <th>Sunday $exitStation -> $entryStation</th>\n";
+  }
   print "    </tr>\n";
   print "  </thead>\n";
   print "  <tbody>\n";
@@ -292,11 +309,17 @@ function printRidership($entryStation, $exitStation) {
     print "      <td align=\"right\">$yearOnly</td>\n";
     print "      <td align=\"right\">$monthOnly</td>\n";
     print "      <td align=\"right\">".$forwardRidership[$monthfull]['weekday']."</td>\n";
-    print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
+    if ($entryStation != $exitStation) {
+      print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
+    }
     print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
-    print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
+    if ($entryStation != $exitStation) {
+      print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
+    }
     print "      <td align=\"right\">".$forwardRidership[$monthfull]['sunday']."</td>\n";
-    print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
+    if ($entryStation != $exitStation) {
+      print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
+    }
     print "    </tr>";
   }
   print "  </tbody>\n";
@@ -304,7 +327,11 @@ function printRidership($entryStation, $exitStation) {
   $displayEndTime = microtime(true);
   $totalTimeTaken = $displayEndTime - $queryStartTime;
   $displayTimeTaken = $displayEndTime - $graphEndTime;
-  print "<p>Printed data for ".count($monthList)." months (rows) and 6 columns, for a total of ".(count($monthList) * 6)." entries</p>";
+  $numColumns = 3;
+  if ($entryStation != $exitStation) {
+    $numColumns = 6;
+  }
+  print "<p>Printed data for ".count($monthList)." months (rows) and $numColumns columns, for a total of ".(count($monthList) * $numColumns)." entries</p>";
   print "<p>Total time taken: ".sprintf('%.3f',$totalTimeTaken)." seconds, ".sprintf('%.3f',$queryTimeTaken)." for query, ".sprintf('%.3f',$graphTimeTaken)." for graph, and ".sprintf('%.3f',$displayTimeTaken)." for display</p>\n";
 }
 ?>

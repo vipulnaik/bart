@@ -5,7 +5,7 @@ function printStationData($stationList) {
   if (count($stationList) == 0) {
     return;
   }
-  $stationListString = "('".join("','",$stationList)."')";
+  $stationListString = "('".join($stationList)."')";
   $stationDataQuery = "select * from stations where code_2l in $stationListString";
   $stationDataResult = $mysqli -> query($stationDataQuery);
   for($i = 0; $i < $stationDataResult -> num_rows; $i++) {
@@ -137,7 +137,7 @@ function printRidershipOneMonth($station, $monthfull) {
   global $mysqli;
   $queryStartTime = microtime(true);
   $allStations = array();
-  $query = "select * from stations where opening_date <= '$monthfull"."-31' order by ordinary_name;";
+  $query = "select * from stations where opening_date <= ".'"'.str_replace('"','\"',$monthfull)."-31".'"'." order by ordinary_name;";
   $result = $mysqli -> query($query);
   for($i = 0; $i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();

@@ -7,7 +7,7 @@ function printStationData($unsafeStationList) {
   }
   $stationList = array();
   foreach ($unsafeStationList as $station) {
-    if (strlen($station) == 2 and ctype_alpha($station)) {
+    if (strlen($station) == 2 and ctype_alnum($station)) {
       array_push($stationList, $station);
     }
   }

@@ -5,7 +5,7 @@ function printStationData($stationList) {
   if (count($stationList) == 0) {
     return;
   }
-  $stationListString = "('".join($stationList)."')";
+  $stationListString = "('".join($stationList, "','")."')";
   $stationDataQuery = "select * from stations where code_2l in $stationListString";
   $stationDataResult = $mysqli -> query($stationDataQuery);
   for($i = 0; $i < $stationDataResult -> num_rows; $i++) {

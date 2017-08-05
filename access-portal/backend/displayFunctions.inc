@@ -226,7 +226,7 @@ function printRidership($entryStation, $exitStation) {
   $queryTimeTaken = $queryEndTime - $queryStartTime;
   $entryStationInfo = expandStationInfo($entryStation);
   $exitStationInfo = expandStationInfo($exitStation);
-  print "<p>The graph and table below shows average weekday, Saturday, and Sunday ridership between $entryStationInfo and $exitStationInfo.</p>";
+  print "<p>The graph and table below show average weekday, Saturday, and Sunday ridership between $entryStationInfo and $exitStationInfo.</p>";
   $fullOutput = "Month|Weekday $entryStation -> $exitStation|Weekday $exitStation -> $entryStation|Saturday $entryStation -> $exitStation|Saturday $exitStation -> $entryStation|Sunday $entryStation -> $exitStation|Sunday $exitStation -> $entryStation\n";
   if ($entryStation == $exitStation) {
     $fullOutput = "Month|Weekday $entryStation -> $exitStation|Saturday $entryStation -> $exitStation|Sunday $entryStation -> $exitStation\n";

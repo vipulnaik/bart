@@ -27,17 +27,19 @@ function getApplicableFareForMonth($entryStation, $exitStation, $monthfull) {
     return sprintf("%.2f",$fare);
   }
 }
-function getRidership($entryStation, $exitStation) {
+function getRidership($entryStationsList, $exitStationsList) {
   global $mysqli;
   $ridershipQuery = "";
-  if ($entryStation == "total" and $exitStation == "total") {
+  $entryStationsListString = "('" . join("','", $entryStationsList) . "')";
+  $exitStationsListString = "('" . join("','", $exitStationsList) . "')";
+  if (in_array("total", $entryStationsList) and in_array("total", $exitStationsList)) {
     $ridershipQuery = "select monthfull, day_type, ridercount from ridership_total;";
-  } else if ($exitStation == "total") {
-    $ridershipQuery = "select monthfull, day_type, ridercount from ridership_entry_total where entry_station_code='$entryStation';";
-  } else if ($entryStation == "total") {
-    $ridershipQuery = "select monthfull, day_type, ridercount from ridership_exit_total where exit_station_code='$exitStation';";
+  } else if (in_array("total", $exitStationsList)) {
+    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership_entry_total where entry_station_code in $entryStationsListString group by monthfull, day_type;";
+  } else if (in_array("total", $entryStationsList)) {
+    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership_exit_total where exit_station_code in $exitStationsListString group by monthfull, day_type;";
   } else {
-    $ridershipQuery = "select * from ridership where entry_station_code='$entryStation' and exit_station_code='$exitStation';";
+    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership where entry_station_code in $entryStationsListString and exit_station_code in $exitStationsListString group by monthfull, day_type;";
   }
   # print "$ridershipQuery\n";
   $ridershipResult = $mysqli -> query($ridershipQuery);

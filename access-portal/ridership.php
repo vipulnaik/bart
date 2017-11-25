@@ -24,11 +24,13 @@ print '<script>$(document).ready(function()
     }
 ); </script>'."\n";
 include_once('preamble.inc');
-$stationVariableName = "entryStation";
+
+# Form
 print '<form method="post" action="ridership.php">';
 print '<table>';
 print '<tr>';
 print '<td>Entry station (station 1)</td>';
+$stationVariableName = "entryStation";
 include("backend/stationDropdown.inc");
 print '</tr>';
 print '<tr>';
@@ -39,6 +41,7 @@ print '<tr><td><input type="submit" value="Submit"></td>';
 print '</tr>';
 print '</table>';
 print '</form>';
+
 include_once("backend/backendQueries.inc");
 include_once("backend/displayFunctions.inc");
 $permalinkUrl = "https://bart.vipulnaik.com/ridership.php?entryStation=$entryStation&exitStation=$exitStation";

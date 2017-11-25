@@ -218,15 +218,148 @@ function printRidershipOneMonth($station, $monthfull) {
   print "<p>Total time taken: ".sprintf('%.3f',$totalTimeTaken)." seconds, ".sprintf('%.3f',$queryTimeTaken)." for query and ".sprintf('%.3f',$displayTimeTaken)." for display</p>\n";  
 }
 
+function printListRidership($entryStationsList, $exitStationsList) {
+  global $monthList;
+  global $imagesPath;
+  global $generateGraphCmdBase;
+  $queryStartTime = microtime(true);
+  $permalinkUrl = "https://bart.vipulnaik.com/ridership-multiple.php?";
+  for ($i = 0; $i < count($entryStationsList); $i++) {
+    $permalinkUrl .= "entryStationsList[".$i."]=".$entryStationsList[$i]."&";
+  }
+  for ($i = 0; $i < count($exitStationsList); $i++) {
+    $permalinkUrl .= "exitStationsList[".$i."]=".$exitStationsList[$i];
+    if ($i < count($exitStationsList) - 1) {
+      $permalinkUrl .= "&";
+    }
+  }
+  print "<p>Permalink URL: <a href=\"$permalinkUrl\">$permalinkUrl</a></p>";
+  $forwardRidership = getRidership($entryStationsList, $exitStationsList);
+  $entryStationsListString = join(",",$entryStationsList);
+  $exitStationsListString = join(",",$exitStationsList);
+  if ($entryStationsList != $exitStationsList) {
+    $reverseRidership = getRidership($exitStationsList, $entryStationsList);
+  }
+  $queryEndTime = microtime(true);
+  $fullOutput = "Month|Weekday $entryStationsListString -> $exitStationsListString|Weekday $exitStationsListString -> $entryStationsListString|Saturday $entryStationsListString -> $exitStationsListString|Saturday $exitStationsListString -> $entryStationsListString|Sunday $entryStationsListString -> $exitStationsListString|Sunday $exitStationsListString -> $entryStationsListString";
+  if ($entryStationsList == $exitStationsList) {
+    $fullOutput = "Month|Weekday $entryStationsListString -> $exitStationsListString|Saturday $entryStationsListString -> $exitStationsListString|Sunday $entryStationsListString -> $exitStationsListString";
+  }
+  $fullOutput .= "\n";
+  foreach ($monthList as $monthfull) {
+    $fullOutput .= $monthfull;
+    $fullOutput .= '|';
+    $fullOutput .= $forwardRidership[$monthfull]['weekday'];
+    if ($entryStationsList != $exitStationsList) {
+      $fullOutput .= '|';
+      $fullOutput .= $reverseRidership[$monthfull]['weekday'];
+    }
+    $fullOutput .= '|';
+    $fullOutput .= $forwardRidership[$monthfull]['saturday'];
+    if ($entryStationsList != $exitStationsList) {
+      $fullOutput .= '|';
+      $fullOutput .= $reverseRidership[$monthfull]['saturday'];
+    }
+    $fullOutput .= '|';
+    $fullOutput .= $forwardRidership[$monthfull]['sunday'];
+    if ($entryStationsList != $exitStationsList) {
+      $fullOutput .= '|';
+      $fullOutput .= $reverseRidership[$monthfull]['sunday'];     
+    }
+    $fullOutput .= "\n";
+  }
+  $fileName = hash("md5",$permalinkUrl);
+  $filePathBase = $imagesPath . $fileName;
+  $dataHasChanged = false;
+  if (file_exists($filePathBase . ".csv") == false) {
+    # print "<br/>There is no file with the CSV $filePathBase . csv, so we are writing it out<br/>";
+    file_put_contents($filePathBase . ".csv", $fullOutput);
+    $dataHasChanged = true;
+  } else {
+    $previousOutput = file_get_contents($filePathBase . ".csv");
+    if ($previousOutput != $fullOutput) {
+      # print "<br/>We have a cached file but the underlying data has changed<br/><br/>";
+      $dataHasChanged = true;
+      file_put_contents($filePathBase . ".csv", $fullOutput);
+    } else {
+      # print "<br/>The cached file contents match the existing data<br/><br/>";
+    }
+  }
+  $cmdToExecute = $generateGraphCmdBase . " " . $filePathBase . ".csv " . $filePathBase . "-timeseries.png";
+  if ($dataHasChanged == true or file_exists($filePathBase . "-timeseries.png") == false) {
+    if (file_exists($filePathBase . "-timeseries.png") == true) {
+      exec("rm ".$filePathBase . "-timeseries.png");
+    }
+    # print "<br/> Excuting $cmdToExecute";
+    exec($cmdToExecute);
+  }
+
+  print '<img src="/images/'.$fileName.'-timeseries.png" alt="Graph of ridership should have loaded here"></img>';
+  $graphEndTime = microtime(true);
+  $graphTimeTaken = $graphEndTime - $queryEndTime;
+  print "\n";
+  print '<table id="ridershipData" class="tablesorter">'."\n";
+  print "  <thead>";
+  print "    <tr>\n";
+  print "      <th>Year</th>\n";
+  print "      <th>Month</th>\n";
+  print "      <th>Weekday $entryStationsListString -> $exitStationsListString</th>\n";
+  if ($entryStationsList != $exitStationsList) {
+    print "      <th>Weekday $exitStationsListString -> $entryStationsListString</th>\n";
+  }
+  print "      <th>Saturday $entryStationsListString -> $exitStationsListString</th>\n";
+  if ($entryStationsList != $exitStationsList) {
+    print "      <th>Saturday $exitStationsListString -> $entryStationsListString</th>\n";
+  }
+  print "      <th>Sunday $entryStationsListString -> $exitStationsListString</th>\n";
+  if ($entryStationsList != $exitStationsList) {
+    print "      <th>Sunday $exitStationsListString -> $entryStationsListString</th>\n";
+  }
+  print "    </tr>\n";
+  print "  </thead>\n";
+  print "  <tbody>\n";
+
+  foreach ($monthList as $monthfull) {
+    print "    <tr>";
+    $yearOnly = substr($monthfull,0,4);
+    $monthOnly = substr($monthfull,5,7);
+    print "      <td align=\"right\">$yearOnly</td>\n";
+    print "      <td align=\"right\">$monthOnly</td>\n";
+    print "      <td align=\"right\">".$forwardRidership[$monthfull]['weekday']."</td>\n";
+    if ($entryStationsList != $exitStationsList) {
+      print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
+    }
+    print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
+    if ($entryStationsList != $exitStationsList) {
+      print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
+    }
+    print "      <td align=\"right\">".$forwardRidership[$monthfull]['sunday']."</td>\n";
+    if ($entryStationsList != $exitStationsList) {
+      print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
+    }
+    print "    </tr>";
+  }
+  print "  </tbody>\n";
+  print "</table>\n";
+  $displayEndTime = microtime(true);
+  $displayTimeTaken = $displayEndTime - $queryEndTime;
+  $numColumns = 3;
+  if ($entryStationsList != $exitStationsList) {
+    $numColumns = 6;
+  }
+  print "<p>Printed data for ".count($monthList)." months (rows) and $numColumns columns, for a total of ".(count($monthList) * $numColumns)." entries</p>";
+  print "<p>Total time taken: ".sprintf('%.3f',$totalTimeTaken)." seconds, ".sprintf('%.3f',$queryTimeTaken)." for query, ".sprintf('%.3f',$graphTimeTaken)." for graph, and ".sprintf('%.3f',$displayTimeTaken)." for display</p>\n";
+}
+
 function printRidership($entryStation, $exitStation) {
   global $monthList;
   global $imagesPath;
   global $generateGraphCmdBase;
   $queryStartTime = microtime(true);
   $permalinkUrl = "https://bart.vipulnaik.com/ridership.php?entryStation=$entryStation&exitStation=$exitStation";
-  $forwardRidership = getRidership($entryStation, $exitStation);
+  $forwardRidership = getRidership(array($entryStation), array($exitStation));
   if ($entryStation != $exitStation) {
-    $reverseRidership = getRidership($exitStation, $entryStation);
+    $reverseRidership = getRidership(array($exitStation), array($entryStation));
   }
   $queryEndTime = microtime(true);
   $queryTimeTaken = $queryEndTime - $queryStartTime;
@@ -284,7 +417,7 @@ function printRidership($entryStation, $exitStation) {
     exec($cmdToExecute);
   }
 
-  print '<img src="/images/'.$fileName.'-timeseries.png" alt="Graph of pageviews should have loaded here"></img>';
+  print '<img src="/images/'.$fileName.'-timeseries.png" alt="Graph of ridership should have loaded here"></img>';
   $graphEndTime = microtime(true);
   $graphTimeTaken = $graphEndTime - $queryEndTime;
   print "\n";

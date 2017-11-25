@@ -14,6 +14,8 @@ print '<script>$(document).ready(function()
     }
 ); </script>'."\n";
 include_once('preamble.inc');
+
+# Single station both sides
 print "<h4>Ridership, fare and route data between your chosen pair of stations</h4>\n";
 print '<form method="post" action="ridership.php">'."\n";
 print "<table>\n";
@@ -32,6 +34,8 @@ print "    </tr>\n";
 print "</table>\n";
 print "</form>\n";
 print "<h4>Station data for a single station, including fares, time, and ridership to all other stations in a given month</h4>\n";
+
+# Single station, single month; data with every other station
 print '<form method="post" action="station.php">';
 print "<table>\n";
 print "    <tr>\n";
@@ -44,6 +48,25 @@ print "      <td>Month for which to show ridership data</td>\n";
 $monthVariableName = "month";
 include("backend/monthDropdown.inc");
 print "    </tr>\n";
+print "    <tr>\n";
+print '      <td><input type="submit" value="Submit"></td>'."\n";
+print "    </tr>\n";
+print "</table>\n";
+print "</form>\n";
+
+# Multiple stations both sides
+print "<h4>Ridership, fare and route data between your chosen lists of stations (under construction)</h4>\n";
+print '<form method="post" action="ridership-multiple.php">'."\n";
+print "<table>\n";
+print "    <tr>\n";
+print "      <td>Entry stations list</td>\n";
+$multipleStationVariableName = "entryStationsList";
+include("backend/stationDropdownSelectMultiple.inc");
+print "    </tr>\n";
+print "    <tr>\n";
+print "    <td>Exit stations list</td>\n";
+$multipleStationVariableName = "exitStationsList";
+include("backend/stationDropdownSelectMultiple.inc");
 print "    <tr>\n";
 print '      <td><input type="submit" value="Submit"></td>'."\n";
 print "    </tr>\n";

@@ -241,6 +241,7 @@ function printListRidership($entryStationsList, $exitStationsList) {
     $reverseRidership = getRidership($exitStationsList, $entryStationsList);
   }
   $queryEndTime = microtime(true);
+  $queryTimeTaken = $queryEndTime - $queryStartTime;
   $fullOutput = "Month|Weekday $entryStationsListString -> $exitStationsListString|Weekday $exitStationsListString -> $entryStationsListString|Saturday $entryStationsListString -> $exitStationsListString|Saturday $exitStationsListString -> $entryStationsListString|Sunday $entryStationsListString -> $exitStationsListString|Sunday $exitStationsListString -> $entryStationsListString";
   if ($entryStationsList == $exitStationsList) {
     $fullOutput = "Month|Weekday $entryStationsListString -> $exitStationsListString|Saturday $entryStationsListString -> $exitStationsListString|Sunday $entryStationsListString -> $exitStationsListString";
@@ -342,7 +343,8 @@ function printListRidership($entryStationsList, $exitStationsList) {
   print "  </tbody>\n";
   print "</table>\n";
   $displayEndTime = microtime(true);
-  $displayTimeTaken = $displayEndTime - $queryEndTime;
+  $totalTimeTaken = $displayEndTime - $queryEndTime;
+  $displayTimeTaken = $displayEndTime - $graphEndTime;
   $numColumns = 3;
   if ($entryStationsList != $exitStationsList) {
     $numColumns = 6;

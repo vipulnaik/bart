@@ -343,7 +343,7 @@ function printListRidership($entryStationsList, $exitStationsList) {
   print "  </tbody>\n";
   print "</table>\n";
   $displayEndTime = microtime(true);
-  $totalTimeTaken = $displayEndTime - $queryEndTime;
+  $totalTimeTaken = $displayEndTime - $queryStartTime;
   $displayTimeTaken = $displayEndTime - $graphEndTime;
   $numColumns = 3;
   if ($entryStationsList != $exitStationsList) {

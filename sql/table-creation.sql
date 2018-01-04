@@ -38,12 +38,7 @@ create table ridership_total(
   unique `md` (monthfull, day_type)
 ) ENGINE=InnoDB AUTO_INCREMENT=15239276 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-truncate table ridership_entry_total;
-insert into ridership_entry_total(monthfull, entry_station_code, day_type, ridercount) select monthfull, entry_station_code, day_type, sum(ridercount) from ridership group by monthfull, entry_station_code, day_type;
-truncate table ridership_exit_total;
-insert into ridership_exit_total(monthfull, exit_station_code, day_type, ridercount) select monthfull, exit_station_code, day_type, sum(ridercount) from ridership group by monthfull, exit_station_code, day_type;
-truncate table ridership_total;
-insert into ridership_total(monthfull, day_type, ridercount) select monthfull, day_type, sum(ridercount) from ridership group by monthfull, day_type;
+truncate table ridership_entry_total; insert into ridership_entry_total(monthfull, entry_station_code, day_type, ridercount) select monthfull, entry_station_code, day_type, sum(ridercount) from ridership group by monthfull, entry_station_code, day_type; truncate table ridership_exit_total; insert into ridership_exit_total(monthfull, exit_station_code, day_type, ridercount) select monthfull, exit_station_code, day_type, sum(ridercount) from ridership group by monthfull, exit_station_code, day_type; truncate table ridership_total; insert into ridership_total(monthfull, day_type, ridercount) select monthfull, day_type, sum(ridercount) from ridership group by monthfull, day_type;
 
 
 create table stations(

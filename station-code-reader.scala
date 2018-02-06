@@ -2,8 +2,8 @@ import com.petametrics.api.util._
 import scala.util.Try
 
 val sb = new StringBuilder
-for (year <- 2001 to 2017) {
-  for (month <- 1 to 12) {
+for (year <- 2001 to 2018) {
+  for (month <- {if (year < 2018) 1 to 12 else 1 to 1}) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
       val path = s"/Users/vipulnaik/git/bart/ridership/$monthfull/$dayType.csv"

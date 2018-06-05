@@ -2,8 +2,9 @@ import com.petametrics.api.util._
 import scala.util.Try
 
 val sb = new StringBuilder
+val forbiddenStationCodes = Seq("ML", "BE")
 for (year <- 2001 to 2018) {
-  for (month <- {if (year < 2018) 1 to 12 else 1 to 4}) {
+  for (month <- {if (year < 2018) 1 to 12 else 1 to 5}) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
       val path = s"/Users/vipulnaik/git/bart/ridership/$monthfull/$dayType.csv"
@@ -15,8 +16,10 @@ for (year <- 2001 to 2018) {
 
       val stationMapFixed = stationMap.mapValues(_.map{case (a,b) => (a,Try(b.filter(t => Character.isDigit(t)).toInt).getOrElse(0))})
 
-      val stationOutputString = stationCodes.map(exitStationCode => {
-        stationMapFixed.getOrElse(exitStationCode, Array()).toSeq.map{
+      val stationOutputString = stationCodes.filter(x => !forbiddenStationCodes.contains(x)).map(exitStationCode => {
+        stationMapFixed.getOrElse(exitStationCode, Array()).toSeq
+          .filter{case (entryStationCode, count) => !forbiddenStationCodes.contains(entryStationCode)}
+          .map{
           case (entryStationCode, count) => s"""('$monthfull','$dayType','$entryStationCode','$exitStationCode',$count)"""
         }
       }).flatten.mkString(",\n")

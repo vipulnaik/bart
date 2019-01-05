@@ -1,14 +1,13 @@
-import com.petametrics.api.util._
 import scala.util.Try
 
 val sb = new StringBuilder
 val forbiddenStationCodes = Seq("ML", "BE")
 for (year <- 2001 to 2018) {
-  for (month <- {if (year < 2018) 1 to 12 else 1 to 11}) {
+  for (month <- {1 to 12}) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
       val path = s"/Users/vipulnaik/git/bart/ridership/$monthfull/$dayType.csv"
-      val data = File.readString(path).split("\n") // Using library used at work; replace with generic Scala file reader
+      val data = scala.io.Source.fromFile(path).mkString.split("\n")
 
       val stationCodes = data(1).tail.split(",").filter(_.size == 2)
 
@@ -35,4 +34,8 @@ for (year <- 2001 to 2018) {
   }
 }
 
-File.writeString(sb.toString(), "/Users/vipulnaik/git/bart/ridership/insertions.sql")
+val file = new java.io.File("/Users/vipulnaik/git/bart/ridership/insertions.sql")
+file.getParentFile.mkdirs
+val pw = new java.io.PrintWriter(file)
+pw.write(sb.toString())
+pw.close

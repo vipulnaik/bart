@@ -55,7 +55,7 @@ print "</table>\n";
 print "</form>\n";
 
 # Multiple stations both sides
-print "<h4>Ridership, fare and route data between your chosen lists of stations (under construction)</h4>\n";
+print "<h4>Ridership, fare and route data between your chosen lists of stations</h4>\n";
 print '<form method="post" action="ridership-multiple.php">'."\n";
 print "<table>\n";
 print "    <tr>\n";

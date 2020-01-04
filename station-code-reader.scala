@@ -3,7 +3,7 @@ import scala.util.Try
 val sb = new StringBuilder
 val forbiddenStationCodes = Seq("ML", "BE")
 for (year <- 2001 to 2019) {
-  for (month <- {if (year == 2019) {1 to 11} else {1 to 12}}) {
+  for (month <- 1 to 12) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
       val path = s"/Users/vipulnaik/git/bart/ridership/$monthfull/$dayType.csv"

@@ -5,8 +5,9 @@ include_once('analytics.inc');
 include_once("backend/globalVariables/passwordFile.inc");
 include_once("backend/globalVariables/globalVariables.inc");
 print '<link href="style.css" rel="stylesheet" type="text/css" />'."\n";
-print '<script type="text/javascript" src="./jquery-3.1.1.min.js"></script>'."\n";
-print '<script type="text/javascript" src="./jquery.tablesorter.js"></script>'."\n";
+# The resources below are currently not needed on the home page
+# print '<script type="text/javascript" src="./jquery-3.1.1.min.js"></script>'."\n";
+# print '<script type="text/javascript" src="./jquery.tablesorter.js"></script>'."\n";
 print '</head>';
 print '<body>';
 print '<script>$(document).ready(function()

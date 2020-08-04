@@ -52,6 +52,7 @@ create table stations(
   muni_connection boolean default false,
   caltrain_connection boolean default false,
   amtrak_connection boolean default false,
+  vta_light_rail_connection boolean default false,
   end_of_line boolean default false,
   trains_can_turn boolean,
   opening_date date

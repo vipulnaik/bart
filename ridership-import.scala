@@ -3,8 +3,8 @@ import java.util.Date
 
 val sb = new StringBuilder
 val forbiddenStationCodes = Nil // Seq("ML", "BE")
-for (year <- 2001 to 2020) {
-  for (month <- 1 to {if (year == 2020) 10 else 12}) {
+for (year <- 2001 to 2021) {
+  for (month <- 1 to {if (year == 2021) 2 else 12}) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
       val path = s"/Users/vipulnaik/git/bart/ridership/$monthfull/$dayType.csv"

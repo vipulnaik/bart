@@ -11,9 +11,9 @@ for (year <- 2001 to 2021) {
       println(s"${new Date(System.currentTimeMillis()).toString} Processing path $path")
       val data = scala.io.Source.fromFile(path).mkString.split("\n")
 
-      val stationCodes = data(1).tail.split(",").filter(_.size == 2)
+      val stationCodes = data(1).tail.split(",").map(_.filter(t => Character.isLetterOrDigit(t))).filter(_.size == 2)
 
-      val stationMap = data.dropRight(2).map(x => x.split(",").head -> (stationCodes zip x.split(", ").map(_.split(""","""")).flatten.map(_.split("""",""")).flatten.tail)).toMap
+      val stationMap = data.dropRight(1).map(x => x.split(",").head -> (stationCodes zip x.split(", ").map(_.split(""","""")).flatten.map(_.split("""",""")).flatten.tail)).toMap
 
       val stationMapFixed = stationMap.mapValues(_.map{case (a,b) => (a,Try(b.filter(t => Character.isDigit(t)).toInt).getOrElse(0))})
 

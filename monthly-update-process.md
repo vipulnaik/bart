@@ -22,7 +22,7 @@ Sometime on the 3rd or later of a new month:
 8. Run the following to regenerate summaries:
 
 ```
-truncate table ridership_entry_total; insert into ridership_entry_total(monthfull, entry_station_code, day_type, ridercount) select monthfull, entry_station_code, day_type, sum(ridercount) from ridership group by monthfull, entry_station_code, day_type; truncate table ridership_exit_total; insert into ridership_exit_total(monthfull, exit_station_code, day_type, ridercount) select monthfull, exit_station_code, day_type, sum(ridercount) from ridership group by monthfull, exit_station_code, day_type; truncate table ridership_total; insert into ridership_total(monthfull, day_type, ridercount) select monthfull, day_type, sum(ridercount) from ridership group by monthfull, day_type;
+truncate table ridership_entry_total; insert into ridership_entry_total(monthfull, entry_station_code, day_type, rider_count) select monthfull, entry_station_code, day_type, sum(rider_count) from ridership group by monthfull, entry_station_code, day_type; truncate table ridership_exit_total; insert into ridership_exit_total(monthfull, exit_station_code, day_type, rider_count) select monthfull, exit_station_code, day_type, sum(rider_count) from ridership group by monthfull, exit_station_code, day_type; truncate table ridership_total; insert into ridership_total(monthfull, day_type, rider_count) select monthfull, day_type, sum(rider_count) from ridership group by monthfull, day_type;
 ```
 
 9. Verify on bart.vipulnaik.com that the charts and data now include

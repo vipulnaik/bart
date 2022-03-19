@@ -33,13 +33,13 @@ function getRidership($entryStationsList, $exitStationsList) {
   $entryStationsListString = "('" . join("','", $entryStationsList) . "')";
   $exitStationsListString = "('" . join("','", $exitStationsList) . "')";
   if (in_array("total", $entryStationsList) and in_array("total", $exitStationsList)) {
-    $ridershipQuery = "select monthfull, day_type, ridercount from ridership_total;";
+    $ridershipQuery = "select monthfull, day_type, rider_count from ridership_total;";
   } else if (in_array("total", $exitStationsList)) {
-    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership_entry_total where entry_station_code in $entryStationsListString group by monthfull, day_type;";
+    $ridershipQuery = "select monthfull, day_type, coalesce(sum(rider_count), 0) as rider_count from ridership_entry_total where entry_station_code in $entryStationsListString group by monthfull, day_type;";
   } else if (in_array("total", $entryStationsList)) {
-    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership_exit_total where exit_station_code in $exitStationsListString group by monthfull, day_type;";
+    $ridershipQuery = "select monthfull, day_type, coalesce(sum(rider_count), 0) as rider_count from ridership_exit_total where exit_station_code in $exitStationsListString group by monthfull, day_type;";
   } else {
-    $ridershipQuery = "select monthfull, day_type, coalesce(sum(ridercount), 0) as ridercount from ridership where entry_station_code in $entryStationsListString and exit_station_code in $exitStationsListString group by monthfull, day_type;";
+    $ridershipQuery = "select monthfull, day_type, coalesce(sum(rider_count), 0) as rider_count from ridership where entry_station_code in $entryStationsListString and exit_station_code in $exitStationsListString group by monthfull, day_type;";
   }
   # print "$ridershipQuery\n";
   $ridershipResult = $mysqli -> query($ridershipQuery);
@@ -48,7 +48,7 @@ function getRidership($entryStationsList, $exitStationsList) {
     $ridershipRow = $ridershipResult -> fetch_assoc();
     $monthfull = $ridershipRow['monthfull'];
     $dayType = $ridershipRow['day_type'];
-    $riderCount = $ridershipRow['ridercount'];
+    $riderCount = $ridershipRow['rider_count'];
     $ridership[$monthfull][$dayType] = $riderCount;
   }
   return $ridership;
@@ -76,7 +76,7 @@ function getRidershipOneMonth($station, $monthfull, $entryOrExit = "entry") {
       $otherStation = $ridershipRow['entry_station_code'];
     }
     $dayType = $ridershipRow['day_type'];
-    $riderCount = $ridershipRow['ridercount'];
+    $riderCount = $ridershipRow['rider_count'];
     $ridership[$otherStation][$dayType] = $riderCount;
   }
   return $ridership;

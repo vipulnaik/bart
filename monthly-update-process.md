@@ -11,7 +11,7 @@ Sometime on the 3rd or later of a new month:
 4. Move the CSV files to `ridershop/<yyyy-mm>` and rename them to
    weekday.csv, saturday.csv, sunday.csv and (if applicable) total.csv.
 
-5. Update [station-code-reader.scala](station-code-reader.scala) to
+5. Update [ridership-import.scala](rideership-import.scala) to
    include the most recent completed month, then run the code.
 
 6. Stage and commit changes to GitHub.

@@ -17,7 +17,7 @@ reset:
 
 .PHONY: read_base
 read_base:
-	mysql $(MYSQL_ARGS) $(DATABASE) < sql/table-creation.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < sql/table_creation.sql
 	mysql $(MYSQL_ARGS) $(DATABASE) < sql/routes.sql
 	mysql $(MYSQL_ARGS) $(DATABASE) < sql/stations.sql
 
@@ -25,7 +25,7 @@ read_base:
 refresh_ridership:
 	mysql $(MYSQL_ARGS) -e "use $(DATABASE); truncate table ridership;"
 	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions.sql
-	mysql $(MYSQL_ARGS) $(DATABASE) < sql/generate-summaries.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < sql/generate_summaries.sql
 
 .PHONY: read
 read: read_base refresh_ridership

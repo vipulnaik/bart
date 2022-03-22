@@ -70,6 +70,7 @@ create table fares(
   unique `sed` (start_station_code, end_station_code, effective_date)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+/*
 create table sps(
   station_code enum('12','16','19','24','AS','BE','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','ML','MT','NB','NC','OA','OR','OW','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   study_year enum('2015','2008','1998') not null,
@@ -96,3 +97,4 @@ create table sps(
   destination_purpose_hotel float(3,2),
   destination_purpose_escorting float(3,2),
   destination_purpose_other float(3,2),
+*/

@@ -25,7 +25,7 @@ read_base:
 refresh_ridership:
 	mysql $(MYSQL_ARGS) -e "use $(DATABASE); truncate table ridership;"
 	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions.sql
-	mysql $(MYSQL_ARGS) $(DATABASE) < sql/generate_summaries.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < sql/generate-summaries.sql
 
 .PHONY: read
 read: read_base refresh_ridership

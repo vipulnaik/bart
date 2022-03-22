@@ -7,6 +7,7 @@ init:
 
 .PHONY: reset
 reset:
+	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists fares;"
 	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists ridership;"
 	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists ridership_entry_total;"
 	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists ridership_exit_total;"

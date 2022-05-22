@@ -3,7 +3,7 @@ DATABASE=bart
 
 .PHONY: init
 init:
-	mysql $(MYSQL_ARGS) -e "create database $(DATABASE);"
+	mysql $(MYSQL_ARGS) -e "create database if not exists $(DATABASE);"
 
 .PHONY: reset
 reset:

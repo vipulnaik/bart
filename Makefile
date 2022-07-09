@@ -4,6 +4,7 @@ DATABASE=bart
 .PHONY: init
 init:
 	mysql $(MYSQL_ARGS) -e "create database if not exists $(DATABASE);"
+	mkdir -p access-portal/images
 
 .PHONY: reset
 reset:

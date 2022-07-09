@@ -11,7 +11,7 @@ function printStationData($unsafeStationList) {
       array_push($stationList, $station);
     }
   }
-  $stationListString = "(\"".join($stationList, "\",\"")."\")";
+  $stationListString = "(\"".join( "\",\"", $stationList)."\")";
   $stationDataQuery = "select * from stations where code_2l in $stationListString";
   $stationDataResult = $mysqli -> query($stationDataQuery);
   for($i = 0; $i < $stationDataResult -> num_rows; $i++) {

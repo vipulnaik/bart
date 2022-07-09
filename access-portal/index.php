@@ -18,7 +18,7 @@ include_once('preamble.inc');
 
 # Single station both sides
 print "<h4>Ridership, fare and route data between your chosen pair of stations</h4>\n";
-print '<form method="post" action="ridership.php">'."\n";
+print '<form method="get" action="ridership.php">'."\n";
 print "<table>\n";
 print "    <tr>\n";
 print "      <td>Entry station (station 1)</td>\n";
@@ -37,7 +37,7 @@ print "</form>\n";
 print "<h4>Station data for a single station, including fares, time, and ridership to all other stations in a given month</h4>\n";
 
 # Single station, single month; data with every other station
-print '<form method="post" action="station.php">';
+print '<form method="get" action="station.php">';
 print "<table>\n";
 print "    <tr>\n";
 print "      <td>Station for which you want the information dump</td>\n";
@@ -57,7 +57,7 @@ print "</form>\n";
 
 # Multiple stations both sides
 print "<h4>Ridership, fare and route data between your chosen lists of stations</h4>\n";
-print '<form method="post" action="ridership-multiple.php">'."\n";
+print '<form method="get" action="ridership-multiple.php">'."\n";
 print "<table>\n";
 print "    <tr>\n";
 print "      <td>Entry stations list</td>\n";

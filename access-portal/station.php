@@ -24,7 +24,7 @@ print '<script>$(document).ready(function()
     }
 ); </script>'."\n";
 include_once('preamble.inc');
-print '<form method="post" action="station.php">';
+print '<form method="get" action="station.php">';
 print "<table>\n";
 print "    <tr>\n";
 print "      <td>Station for which you want the information dump</td>\n";

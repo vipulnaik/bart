@@ -26,7 +26,7 @@ print '<script>$(document).ready(function()
 include_once('preamble.inc');
 
 # Form
-print '<form method="post" action="ridership.php">';
+print '<form method="get" action="ridership.php">';
 print '<table>';
 print '<tr>';
 print '<td>Entry station (station 1)</td>';

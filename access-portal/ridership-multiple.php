@@ -32,7 +32,7 @@ include_once('preamble.inc');
 # print "exitStationsListString = $exitStationsListString";
 
 # Form
-print '<form method="post" action="ridership-multiple.php">'."\n";
+print '<form method="get" action="ridership-multiple.php">'."\n";
 print "<table>\n";
 print "    <tr>\n";
 print "      <td>Entry stations list</td>\n";

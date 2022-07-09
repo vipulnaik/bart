@@ -100,3 +100,15 @@ make fetch_anchorjs
 
 You can remove these files with `make clean_anchorjs`.
 
+### Graphing
+
+For the graphing, you need to make sure you have `python3` working,
+and you also need to install some packages. You can install the
+packages with `pip3` as follows:
+
+```bash
+pip3 install argparse pandas numpy matplotlib
+```
+
+If for whatever reason you don't have `pip3` installed, you need to
+install it first.

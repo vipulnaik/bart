@@ -10,7 +10,7 @@ if (($multipleStationVariableName == "entryStationsList" and isset($entryStation
 print ">Total across all stations</option>\n";
 for($i=0; $i < $result -> num_rows; $i++) {
   $row = $result -> fetch_assoc();
-  print "<option value=\"".$row['code_2l']."\" ";
+  print "<option value=\"".$row['code_2l']."\"";
   if (($multipleStationVariableName == "entryStationsList" and isset($entryStationsList) and in_array($row['code_2l'], $entryStationsList)) or ($multipleStationVariableName == "exitStationsList" and isset($exitStationsList) and in_array($row['code_2l'], $exitStationsList)) or ($multipleStationVariableName == "stationsList" and isset($stationsList) and in_array($row['code_2l'],$stationsList))) {
     print ' selected';
   }

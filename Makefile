@@ -8,13 +8,13 @@ init:
 
 .PHONY: reset
 reset:
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists fares;"
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists ridership;"
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists ridership_entry_total;"
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists ridership_exit_total;"
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists ridership_total;"
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists routes;"
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); drop table if exists stations;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "drop table if exists fares;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "drop table if exists ridership;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "drop table if exists ridership_entry_total;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "drop table if exists ridership_exit_total;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "drop table if exists ridership_total;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "drop table if exists routes;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "drop table if exists stations;"
 
 .PHONY: read_base
 read_base:
@@ -24,7 +24,7 @@ read_base:
 
 .PHONY: refresh_ridership
 refresh_ridership:
-	mysql $(MYSQL_ARGS) -e "use $(DATABASE); truncate table ridership;"
+	mysql $(MYSQL_ARGS) $(DATABASE) -e "truncate table ridership;"
 	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions.sql
 	mysql $(MYSQL_ARGS) $(DATABASE) < sql/generate_summaries.sql
 

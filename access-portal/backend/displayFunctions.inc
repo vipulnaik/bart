@@ -143,7 +143,7 @@ function printRidershipOneMonth($station, $monthfull) {
   global $mysqli;
   $queryStartTime = microtime(true);
   $allStations = array();
-  $query = "select * from stations where opening_date <= ".'"'.str_replace('"','\"',$monthfull)."-31".'"'." order by ordinary_name;";
+  $query = "select * from stations where opening_date <= ".'"'.str_replace('"','\"',$monthfull)."-28".'"'." order by ordinary_name;";
   $result = $mysqli -> query($query);
   for($i = 0; $i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();

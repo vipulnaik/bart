@@ -478,7 +478,7 @@ function printRidership($entryStation, $exitStation) {
   if ($entryStation != $exitStation) {
     $numColumns = 6;
   }
-  print "<p>Printed data for ".$numPrintedMonths." months (rows) and $numColumns columns, for a total of ".(count($monthList) * $numColumns)." entries</p>";
+  print "<p>Printed data for ".$numPrintedMonths." months (rows) and $numColumns columns, for a total of ".($numPrintedMonths * $numColumns)." entries</p>";
   print "<p>Total time taken: ".sprintf('%.3f',$totalTimeTaken)." seconds, ".sprintf('%.3f',$queryTimeTaken)." for query, ".sprintf('%.3f',$graphTimeTaken)." for graph, and ".sprintf('%.3f',$displayTimeTaken)." for display</p>\n";
 }
 ?>

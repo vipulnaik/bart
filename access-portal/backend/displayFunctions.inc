@@ -449,17 +449,19 @@ function printRidership($entryStation, $exitStation) {
     $monthOnly = substr($monthfull,5,7);
     print "      <td align=\"right\">$yearOnly</td>\n";
     print "      <td align=\"right\">$monthOnly</td>\n";
-    print "      <td align=\"right\">".$forwardRidership[$monthfull]['weekday']."</td>\n";
-    if ($entryStation != $exitStation) {
-      print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
-    }
-    print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
-    if ($entryStation != $exitStation) {
-      print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
-    }
-    print "      <td align=\"right\">".$forwardRidership[$monthfull]['sunday']."</td>\n";
-    if ($entryStation != $exitStation) {
-      print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
+    if (isset($forwardRidership[$monthfull] and isset($reverseRidership[$monthfull]))) {
+      print "      <td align=\"right\">".$forwardRidership[$monthfull]['weekday']."</td>\n";
+      if ($entryStation != $exitStation) {
+        print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
+      }
+      print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
+      if ($entryStation != $exitStation) {
+        print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
+      }
+      print "      <td align=\"right\">".$forwardRidership[$monthfull]['sunday']."</td>\n";
+      if ($entryStation != $exitStation) {
+        print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
+      }
     }
     print "    </tr>";
   }

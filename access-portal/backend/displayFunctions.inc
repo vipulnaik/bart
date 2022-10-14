@@ -222,6 +222,7 @@ function printListRidership($entryStationsList, $exitStationsList) {
   global $monthList;
   global $imagesPath;
   global $generateGraphCmdBase;
+  $numPrintedMonths = 0;
   $queryStartTime = microtime(true);
   $permalinkUrl = "https://bart.vipulnaik.com/ridership-multiple.php?";
   for ($i = 0; $i < count($entryStationsList); $i++) {
@@ -248,26 +249,28 @@ function printListRidership($entryStationsList, $exitStationsList) {
   }
   $fullOutput .= "\n";
   foreach ($monthList as $monthfull) {
-    $fullOutput .= $monthfull;
-    $fullOutput .= '|';
-    $fullOutput .= $forwardRidership[$monthfull]['weekday'];
-    if ($entryStationsList != $exitStationsList) {
+    if (isset($forwardRidership[$monthfull])) {
+      $fullOutput .= $monthfull;
       $fullOutput .= '|';
-      $fullOutput .= $reverseRidership[$monthfull]['weekday'];
-    }
-    $fullOutput .= '|';
-    $fullOutput .= $forwardRidership[$monthfull]['saturday'];
-    if ($entryStationsList != $exitStationsList) {
+      $fullOutput .= $forwardRidership[$monthfull]['weekday'];
+      if ($entryStationsList != $exitStationsList) {
+        $fullOutput .= '|';
+        $fullOutput .= $reverseRidership[$monthfull]['weekday'];
+      }
       $fullOutput .= '|';
-      $fullOutput .= $reverseRidership[$monthfull]['saturday'];
-    }
-    $fullOutput .= '|';
-    $fullOutput .= $forwardRidership[$monthfull]['sunday'];
-    if ($entryStationsList != $exitStationsList) {
+      $fullOutput .= $forwardRidership[$monthfull]['saturday'];
+      if ($entryStationsList != $exitStationsList) {
+        $fullOutput .= '|';
+        $fullOutput .= $reverseRidership[$monthfull]['saturday'];
+      }
       $fullOutput .= '|';
-      $fullOutput .= $reverseRidership[$monthfull]['sunday'];     
+      $fullOutput .= $forwardRidership[$monthfull]['sunday'];
+      if ($entryStationsList != $exitStationsList) {
+        $fullOutput .= '|';
+        $fullOutput .= $reverseRidership[$monthfull]['sunday'];
+      }
+      $fullOutput .= "\n";
     }
-    $fullOutput .= "\n";
   }
   $fileName = hash("md5",$permalinkUrl);
   $filePathBase = $imagesPath . $fileName;
@@ -321,24 +324,27 @@ function printListRidership($entryStationsList, $exitStationsList) {
   print "  <tbody>\n";
 
   foreach ($monthList as $monthfull) {
-    print "    <tr>";
-    $yearOnly = substr($monthfull,0,4);
-    $monthOnly = substr($monthfull,5,7);
-    print "      <td align=\"right\">$yearOnly</td>\n";
-    print "      <td align=\"right\">$monthOnly</td>\n";
-    print "      <td align=\"right\">".$forwardRidership[$monthfull]['weekday']."</td>\n";
-    if ($entryStationsList != $exitStationsList) {
-      print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
+    if (isset($forwardRidership[$monthfull])) {
+      print "    <tr>";
+      $yearOnly = substr($monthfull,0,4);
+      $monthOnly = substr($monthfull,5,7);
+      print "      <td align=\"right\">$yearOnly</td>\n";
+      print "      <td align=\"right\">$monthOnly</td>\n";
+      print "      <td align=\"right\">".$forwardRidership[$monthfull]['weekday']."</td>\n";
+      if ($entryStationsList != $exitStationsList) {
+        print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
+      }
+      print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
+      if ($entryStationsList != $exitStationsList) {
+        print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
+      }
+      print "      <td align=\"right\">".$forwardRidership[$monthfull]['sunday']."</td>\n";
+      if ($entryStationsList != $exitStationsList) {
+        print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
+      }
+      print "    </tr>";
+      $numPrintedMonths += 1;
     }
-    print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
-    if ($entryStationsList != $exitStationsList) {
-      print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
-    }
-    print "      <td align=\"right\">".$forwardRidership[$monthfull]['sunday']."</td>\n";
-    if ($entryStationsList != $exitStationsList) {
-      print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
-    }
-    print "    </tr>";
   }
   print "  </tbody>\n";
   print "</table>\n";
@@ -349,7 +355,7 @@ function printListRidership($entryStationsList, $exitStationsList) {
   if ($entryStationsList != $exitStationsList) {
     $numColumns = 6;
   }
-  print "<p>Printed data for ".count($monthList)." months (rows) and $numColumns columns, for a total of ".(count($monthList) * $numColumns)." entries</p>";
+  print "<p>Printed data for ".$numPrintedMonths." months (rows) and $numColumns columns, for a total of ".($numPrintedMonths * $numColumns)." entries</p>";
   print "<p>Total time taken: ".sprintf('%.3f',$totalTimeTaken)." seconds, ".sprintf('%.3f',$queryTimeTaken)." for query, ".sprintf('%.3f',$graphTimeTaken)." for graph, and ".sprintf('%.3f',$displayTimeTaken)." for display</p>\n";
 }
 

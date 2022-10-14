@@ -373,26 +373,28 @@ function printRidership($entryStation, $exitStation) {
     $fullOutput = "Month|Weekday $entryStation -> $exitStation|Saturday $entryStation -> $exitStation|Sunday $entryStation -> $exitStation\n";
   }
   foreach ($monthList as $monthfull) {
-    $fullOutput .= $monthfull;
-    $fullOutput .= '|';
-    $fullOutput .= $forwardRidership[$monthfull]['weekday'];
-    if ($entryStation != $exitStation) {
+    if (isset($forwardRidership[$monthfull])) {
+      $fullOutput .= $monthfull;
       $fullOutput .= '|';
-      $fullOutput .= $reverseRidership[$monthfull]['weekday'];
-    }
-    $fullOutput .= '|';
-    $fullOutput .= $forwardRidership[$monthfull]['saturday'];
-    if ($entryStation != $exitStation) {
+      $fullOutput .= $forwardRidership[$monthfull]['weekday'];
+      if ($entryStation != $exitStation) {
+        $fullOutput .= '|';
+        $fullOutput .= $reverseRidership[$monthfull]['weekday'];
+      }
       $fullOutput .= '|';
-      $fullOutput .= $reverseRidership[$monthfull]['saturday'];
-    }
-    $fullOutput .= '|';
-    $fullOutput .= $forwardRidership[$monthfull]['sunday'];
-    if ($entryStation != $exitStation) {
+      $fullOutput .= $forwardRidership[$monthfull]['saturday'];
+      if ($entryStation != $exitStation) {
+        $fullOutput .= '|';
+        $fullOutput .= $reverseRidership[$monthfull]['saturday'];
+      }
       $fullOutput .= '|';
-      $fullOutput .= $reverseRidership[$monthfull]['sunday'];
+      $fullOutput .= $forwardRidership[$monthfull]['sunday'];
+      if ($entryStation != $exitStation) {
+        $fullOutput .= '|';
+        $fullOutput .= $reverseRidership[$monthfull]['sunday'];
+      }
+      $fullOutput .= "\n";
     }
-    $fullOutput .= "\n";
   }
   $fileName = hash("md5",$permalinkUrl);
   $filePathBase = $imagesPath . $fileName;
@@ -444,12 +446,12 @@ function printRidership($entryStation, $exitStation) {
   print "  </thead>\n";
   print "  <tbody>\n";
   foreach ($monthList as $monthfull) {
-    print "    <tr>";
-    $yearOnly = substr($monthfull,0,4);
-    $monthOnly = substr($monthfull,5,7);
-    print "      <td align=\"right\">$yearOnly</td>\n";
-    print "      <td align=\"right\">$monthOnly</td>\n";
     if (isset($forwardRidership[$monthfull])) {
+      print "    <tr>";
+      $yearOnly = substr($monthfull,0,4);
+      $monthOnly = substr($monthfull,5,7);
+      print "      <td align=\"right\">$yearOnly</td>\n";
+      print "      <td align=\"right\">$monthOnly</td>\n";
       print "      <td align=\"right\">".$forwardRidership[$monthfull]['weekday']."</td>\n";
       if ($entryStation != $exitStation) {
         print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
@@ -462,8 +464,8 @@ function printRidership($entryStation, $exitStation) {
       if ($entryStation != $exitStation) {
         print "      <td align=\"right\">".$reverseRidership[$monthfull]['sunday']."</td>\n";
       }
+      print "    </tr>";
     }
-    print "    </tr>";
   }
   print "  </tbody>\n";
   print "</table>\n";

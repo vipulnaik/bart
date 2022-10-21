@@ -389,10 +389,10 @@ function printRidership($entryStation, $exitStation) {
         $fullOutput .= $reverseRidership[$monthfull]['weekday'];
       }
       $fullOutput .= '|';
-      $fullOutput .= $forwardRidership[$monthfull]['saturday'];
+      $fullOutput .= $forwardRidership[$monthfull]['saturday'] ?? 0;
       if ($entryStation != $exitStation) {
         $fullOutput .= '|';
-        $fullOutput .= $reverseRidership[$monthfull]['saturday'];
+        $fullOutput .= $reverseRidership[$monthfull]['saturday'] ?? 0;
       }
       $fullOutput .= '|';
       $fullOutput .= $forwardRidership[$monthfull]['sunday'];

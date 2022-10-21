@@ -463,9 +463,17 @@ function printRidership($entryStation, $exitStation) {
       if ($entryStation != $exitStation) {
         print "      <td align=\"right\">".$reverseRidership[$monthfull]['weekday']."</td>\n";
       }
-      print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
+      if ($exitStation == "MB" and $monthfull == "2008-08") {
+          print "      <td align=\"right\">missing</td>\n";
+      } else {
+          print "      <td align=\"right\">".$forwardRidership[$monthfull]['saturday']."</td>\n";
+      }
       if ($entryStation != $exitStation) {
-        print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
+          if (($entryStation == "MB" and $monthfull == "2008-08") {
+              print "      <td align=\"right\">missing</td>\n";
+          } else {
+              print "      <td align=\"right\">".$reverseRidership[$monthfull]['saturday']."</td>\n";
+          }
       }
       print "      <td align=\"right\">".$forwardRidership[$monthfull]['sunday']."</td>\n";
       if ($entryStation != $exitStation) {

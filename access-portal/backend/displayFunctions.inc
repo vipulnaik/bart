@@ -1,5 +1,12 @@
 <?php
 
+function questionMarkForStationData($input) {
+  return "?";
+}
+function stringAnnotationForStationData($input) {
+  return "s";
+}
+
 function printStationData($unsafeStationList) {
   global $mysqli;
   if (count($unsafeStationList) == 0) {
@@ -11,9 +18,13 @@ function printStationData($unsafeStationList) {
       array_push($stationList, $station);
     }
   }
-  $stationListString = "(\"".join( "\",\"", $stationList)."\")";
-  $stationDataQuery = "select * from stations where code_2l in $stationListString";
-  $stationDataResult = $mysqli -> query($stationDataQuery);
+  $stationListQuestionMarks = join(",", array_map("questionMarkForStationData", $stationList));
+  $stationListStringAnnotations = join("", array_map("stringAnnotationForStationData", $stationList));
+  $stationDataQuery = "select * from stations where code_2l in ($stationListQuestionMarks);";
+  $stmt = $mysqli -> prepare($stationDataQuery);
+  $stmt -> bind_param($stationListStringAnnotations, ...$stationList);
+  $stmt -> execute();
+  $stationDataResult = $stmt -> get_result();
   for($i = 0; $i < $stationDataResult -> num_rows; $i++) {
     $stationDataRow = $stationDataResult -> fetch_assoc();
     $stationData[$stationDataRow['code_2l']] = $stationDataRow;
@@ -143,8 +154,12 @@ function printRidershipOneMonth($station, $monthfull) {
   global $mysqli;
   $queryStartTime = microtime(true);
   $allStations = array();
-  $query = "select * from stations where opening_date <= ".'"'.str_replace('"','\"',$monthfull)."-28".'"'." order by ordinary_name;";
-  $result = $mysqli -> query($query);
+  $monthfullEndDate = $monthfull . "-28";
+  $query = "select * from stations where opening_date <= ? order by ordinary_name;";
+  $stmt = $mysqli -> prepare($query);
+  $stmt -> bind_param("s", $monthfullEndDate);
+  $stmt -> execute();
+  $result = $stmt -> get_result();
   for($i = 0; $i < $result -> num_rows; $i++) {
     $row = $result -> fetch_assoc();
     array_push($allStations, $row['code_2l']);

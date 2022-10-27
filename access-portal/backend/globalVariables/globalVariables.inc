@@ -1,5 +1,5 @@
 <?php
-$query = "select distinct monthfull from ridership";
+$query = "select distinct monthfull from ridership;";
 $result = $mysqli -> query($query);
 $monthListOriginal = array();
 for ($i = 0; $i < $result -> num_rows; $i++) {

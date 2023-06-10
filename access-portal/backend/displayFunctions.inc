@@ -218,8 +218,16 @@ function printRidershipOneMonth($station, $monthfull) {
     }
     print "      <td align=\"right\">".$entryRidership[$otherStation]['weekday']."</td>\n";
     print "      <td align=\"right\">".$exitRidership[$otherStation]['weekday']."</td>\n";
-    print "      <td align=\"right\">".$entryRidership[$otherStation]['saturday']."</td>\n";
-    print "      <td align=\"right\">".$exitRidership[$otherStation]['saturday']."</td>\n";
+    if ($otherStation == "MB" and $monthfull == "2008-08") {
+      print "      <td align=\"right\">missing</td>\n";
+    } else {
+      print "      <td align=\"right\">".$entryRidership[$otherStation]['saturday']."</td>\n";
+    }
+    if ($station == "MB" and $monthfull == "2008-08") {
+      print "      <td align=\"right\">missing</td>\n";
+    } else {
+      print "      <td align=\"right\">".$exitRidership[$otherStation]['saturday']."</td>\n";
+    }
     print "      <td align=\"right\">".$entryRidership[$otherStation]['sunday']."</td>\n";
     print "      <td align=\"right\">".$exitRidership[$otherStation]['sunday']."</td>\n";
     print "    </tr>\n";

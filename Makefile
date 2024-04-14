@@ -25,7 +25,29 @@ read_base:
 .PHONY: refresh_ridership
 refresh_ridership:
 	mysql $(MYSQL_ARGS) $(DATABASE) -e "truncate table ridership;"
-	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2001.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2002.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2003.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2004.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2005.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2006.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2007.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2008.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2009.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2010.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2011.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2012.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2013.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2014.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2015.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2016.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2017.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2018.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2019.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2020.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2021.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2022.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2023.sql
 	mysql $(MYSQL_ARGS) $(DATABASE) < sql/generate_summaries.sql
 
 .PHONY: read

@@ -1,9 +1,9 @@
 import scala.util.Try
 import java.util.Date
 
-val sb = new StringBuilder
 val forbiddenStationCodes = Nil
 for (year <- 2001 to 2023) {
+  val sb = new StringBuilder
   for (month <- 1 to 12) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
@@ -34,10 +34,9 @@ for (year <- 2001 to 2023) {
       case e: Exception => println(s"Encountered error ${e.toString} on year $year and month $month, stack trace ${e.getStackTrace.take(20).mkString("\n")}")
     }
   }
+  val file = new java.io.File(s"/Users/vipulnaik/git/personal-public/bart/ridership/insertions-$year.sql")
+  file.getParentFile.mkdirs
+  val pw = new java.io.PrintWriter(file)
+  pw.write(sb.toString())
+  pw.close
 }
-
-val file = new java.io.File("/Users/vipulnaik/git/personal-public/bart/ridership/insertions.sql")
-file.getParentFile.mkdirs
-val pw = new java.io.PrintWriter(file)
-pw.write(sb.toString())
-pw.close

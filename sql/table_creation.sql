@@ -9,7 +9,7 @@ create table ridership(
   index ee(entry_station_code, exit_station_code),
   index me1(monthfull, entry_station_code),
   index me2(monthfull, exit_station_code)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 create table ridership_entry_total(
   ridership_id int(11) not null auto_increment primary key, 
@@ -18,7 +18,7 @@ create table ridership_entry_total(
   entry_station_code enum('12','16','19','24','AN','AS','BE','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','ML','MT','NB','NC','OA','OR','OW','PC','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   rider_count int(11) not null,
   unique `med` (monthfull, entry_station_code, day_type)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 
 create table ridership_exit_total(
@@ -28,7 +28,7 @@ create table ridership_exit_total(
   exit_station_code enum('12','16','19','24','AN','AS','BE','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','ML','MT','NB','NC','OA','OR','OW','PC','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   rider_count int(11) not null,
   unique `med` (monthfull, exit_station_code, day_type)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 create table ridership_total(
   ridership_id int(11) not null auto_increment primary key, 
@@ -36,7 +36,7 @@ create table ridership_total(
   day_type enum('weekday','saturday','sunday'),
   rider_count int(11) not null,
   unique `md` (monthfull, day_type)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 create table stations(
   code_2l varchar(2) not null,
@@ -53,14 +53,14 @@ create table stations(
   end_of_line boolean default false,
   trains_can_turn boolean,
   opening_date date
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 create table routes(
   start_station_code enum('12','16','19','24','AN','AS','BE','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','ML','MT','NB','NC','OA','OR','OW','PC','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   end_station_code enum('12','16','19','24','AN','AS','BE','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','ML','MT','NB','NC','OA','OR','OW','PC','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   station_code enum('12','16','19','24','AN','AS','BE','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','ML','MT','NB','NC','OA','OR','OW','PC','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
   time_from_start int(11) not null
-) ENGINE=InnoDB AUTO_INCREMENT=14342355 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14342355 DEFAULT CHARSET=utf8mb4;
 
 create table fares(
   start_station_code enum('12','16','19','24','AN','AS','BE','BF','BK','BP','CC','CL','CM','CN','CV','DC','ED','EM','EN','EP','FM','FV','GP','HY','LF','LM','MA','MB','ML','MT','NB','NC','OA','OR','OW','PC','PH','PL','RM','RR','SB','SH','SL','SO','SS','UC','WC','WD','WP','WS') not null,
@@ -68,7 +68,7 @@ create table fares(
   fare float(5,2),
   effective_date date not null,
   unique `sed` (start_station_code, end_station_code, effective_date)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 /*
 create table sps(

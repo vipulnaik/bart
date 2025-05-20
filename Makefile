@@ -49,6 +49,7 @@ refresh_ridership:
 	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2022.sql
 	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2023.sql
 	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2024.sql
+	mysql $(MYSQL_ARGS) $(DATABASE) < ridership/insertions-2025.sql
 	mysql $(MYSQL_ARGS) $(DATABASE) < sql/generate_summaries.sql
 
 .PHONY: read

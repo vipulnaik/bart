@@ -46,10 +46,17 @@ for (year <- 2001 to 2023) {
   println(s"${new Date(System.currentTimeMillis()).toString} Finished processing year $year")
 }
 
-for (year <- 2024 to 2024) {
+for (year <- 2024 to 2025) {
   println(s"${new Date(System.currentTimeMillis()).toString} Started processing year $year")
   val sb = new StringBuilder
-  for (month <- 1 to 7) {
+  val finalMonth = {
+    if (year == 2025) {
+      4
+    } else {
+      12
+    }
+  }
+  for (month <- 1 to finalMonth) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
       val path = s"/Users/vipulnaik/git/personal-public/bart/ridership/$monthfull/$dayType.tsv"

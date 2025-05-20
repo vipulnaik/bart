@@ -59,13 +59,21 @@ for (year <- 2024 to 2025) {
   for (month <- 1 to finalMonth) {
     val monthfull = s"$year-" + "%02d".format(month)
     for (dayType <- Seq("weekday", "saturday", "sunday")) try {
+      val numInitialWastedRows = {
+        if (year == 2024 && month == 10) {
+          3
+        } else {
+          4
+        }
+      }
+
       val path = s"/Users/vipulnaik/git/personal-public/bart/ridership/$monthfull/$dayType.tsv"
       println(s"${new Date(System.currentTimeMillis()).toString} Processing path $path")
       val data = scala.io.Source.fromFile(path).mkString.split("\n")
 
-      val stationCodes = data(4).split("\t").tail.map(_.filter(t => Character.isLetterOrDigit(t))).filter(_.size == 2)
+      val stationCodes = data(numInitialWastedRows).split("\t").tail.map(_.filter(t => Character.isLetterOrDigit(t))).filter(_.size == 2)
 
-      val stationMap = data.drop(5).dropRight(1).map(x => x.split("\t").head -> (stationCodes zip x.split("\t").tail.dropRight(1))).toMap
+      val stationMap = data.drop(numInitialWastedRows + 1).dropRight(1).map(x => x.split("\t").head -> (stationCodes zip x.split("\t").tail.dropRight(1))).toMap
 
       val stationMapFixed = stationMap.mapValues(_.map{case (a,b) => (a,Try(b.filter(t => Character.isDigit(t)).toInt).getOrElse(0))})
 

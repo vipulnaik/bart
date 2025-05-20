@@ -22,7 +22,7 @@ for (year <- 2001 to 2023) {
         stationMapFixed.getOrElse(exitStationCode, Array()).toSeq
           .filter{case (entryStationCode, count) => !forbiddenStationCodes.contains(entryStationCode)}
           .map{
-          case (entryStationCode, count) => s"""('$monthfull','$dayType','$entryStationCode','$exitStationCode',$count)"""
+          case (entryStationCode, count) => s"""  ('$monthfull','$dayType','$entryStationCode','$exitStationCode',$count)"""
         }
       }).flatten.mkString(",\n")
 
@@ -30,7 +30,7 @@ for (year <- 2001 to 2023) {
 
       val queryString = preamble + stationOutputString + ";"
 
-      sb ++= queryString + "\n"
+      sb ++= queryString + "\n\n"
     } catch {
       case e: Exception => println(s"Encountered error ${e.toString} on year $year and month $month, stack trace ${e.getStackTrace.take(20).mkString("\n")}")
     }
@@ -73,7 +73,7 @@ for (year <- 2024 to 2025) {
         stationMapFixed.getOrElse(exitStationCode, Array()).toSeq
           .filter{case (entryStationCode, count) => !forbiddenStationCodes.contains(entryStationCode)}
           .map{
-          case (entryStationCode, count) => s"""('$monthfull','$dayType','$entryStationCode','$exitStationCode',$count)"""
+          case (entryStationCode, count) => s"""  ('$monthfull','$dayType','$entryStationCode','$exitStationCode',$count)"""
         }
       }).flatten.mkString(",\n")
 
@@ -81,7 +81,7 @@ for (year <- 2024 to 2025) {
 
       val queryString = preamble + stationOutputString + ";"
 
-      sb ++= queryString + "\n"
+      sb ++= queryString + "\n\n"
     } catch {
       case e: Exception => println(s"Encountered error ${e.toString} on year $year and month $month, stack trace ${e.getStackTrace.take(20).mkString("\n")}")
     }
